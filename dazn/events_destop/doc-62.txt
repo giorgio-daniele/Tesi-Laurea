@@ -1,0 +1,17 @@
+static.dazndn.com
+agent.newrelic.com
+nr.data.net
+nr.data.net
+gcp.gvt#.com
+gcp.gvt#.com
+nr.data.net
+pubby.indazn.com
+pubby.indazn.com
+pubby.indazn.com
+livedazn.daznedge.net
+livedazn.daznedge.net
+livedazn.daznedge.net
+livedazn.daznedge.net
+italy.scorecardresearch.com
+cws.conviva.com
+italy.scorecardresearch.com

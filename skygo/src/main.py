@@ -1,5 +1,7 @@
 import pandas
 import os
+import numpy as np
+import matplotlib.pyplot as plt
 
 from lib import Experiment
 from lib import process_experiments
@@ -18,13 +20,13 @@ def compute_covering_index(tokens: list[str], hot_tokens: dict[str, float]):
     return (score / max) * 100
 
 
-# Define your constants
-DELTA = pandas.Timedelta(seconds=3)
-LIMIT = pandas.Timedelta(seconds=60 * 10)
+class Sample:
 
-class ViewsProcessor:
-
-    def __init__(self, frame: pandas.DataFrame, streambot_trace_file: str, platform_profile: str, delta: pandas.Timedelta, limit: int, minimum: int, threshold: float=50.0):
+    def __init__(self, 
+                 frame: pandas.DataFrame, 
+                 streambot_trace_file: str, 
+                    platform_profile: str, 
+                    delta: pandas.Timedelta, limit: pandas.Timedelta, minimum: int, threshold: float=50.0):
         
         # The dataframe to be processed (input)
         self.frame = frame
@@ -46,6 +48,8 @@ class ViewsProcessor:
         self.lab_windows: list[tuple] = []
         self.cls_windows: list[tuple] = []
 
+        # Statistics about this experiment
+        self.stats = {}
 
     def print_raw_windows(self):
 
@@ -127,6 +131,8 @@ class ViewsProcessor:
 
             # Manage overlapping windows
             ts = max(ts, horizon) if horizon else ts
+
+            # Move to the next hotspot
             i += 1
 
             while i < len(hotspots) and hotspots[i] <= te:
@@ -185,7 +191,6 @@ class ViewsProcessor:
 
     def label_windows_3b(self, intervals: list[tuple[int, int]]):
 
-
         # Loop over all windows, selecting the timestamps of the first and last occurences,
         for w_ts, w_te, window in self.raw_windows:
             
@@ -209,10 +214,18 @@ class ViewsProcessor:
                 self.lab_windows.append(item)
 
 
-    def classify_windows(self):
+    def classify_windows(self, intervals):
 
         all_tokens = {}
         hot_tokens = {}
+
+        # POSITIVE 
+        tp = 0
+        fp = 0
+
+        # NEGATIVE
+        tn = 0
+        fn = 0
         
         # Read from platform profile all tokens and their frequencies
         with open(self.platform_profile, "r") as file:
@@ -235,71 +248,159 @@ class ViewsProcessor:
             
             if label == "POSITIVE":
 
-                label = "POSITIVE"
-
                 if score >= self.treshold:
-                    item = (w_ts, w_te, window, label, "POSITIVE")
+                    
+                    # True positive
+
+                    item = (w_ts, w_te, window, "POSITIVE", "POSITIVE")
                     self.cls_windows.append(item)
+
+                    # Add a new true positive
+                    tp += 1
                 
                 if score < self.treshold:
-                    item = (w_ts, w_te, window, label, "NEGATIVE")
+
+                    # False negative
+
+                    item = (w_ts, w_te, window, "POSITIVE", "NEGATIVE")
                     self.cls_windows.append(item)
+
+                    # Add a new true positive
+                    fn += 1
 
             if label == "NEGATIVE":
 
-                label = "NEGATIVE"
-
                 if score >= self.treshold:
-                    item = (w_ts, w_te, window, label, "POSITIVE")
+                    
+                    # False positive
+
+                    item = (w_ts, w_te, window, "NEGATIVE", "POSITIVE")
                     self.cls_windows.append(item)
+
+                    # Add a new false positive
+                    fp += 1
                 
                 if score < self.treshold:
-                    item = (w_ts, w_te, window, label, "NEGATIVE")
+
+                    # True negative
+
+                    item = (w_ts, w_te, window, "NEGATIVE", "NEGATIVE")
                     self.cls_windows.append(item)
+
+                    # Add a new true negative
+                    tn += 1
+
+        self.stats = {
+
+            "fp": fp,
+            "fn": fn,
+            "tp": tp,
+            "tn": tn,
+            "win_generated": len(self.raw_windows),         # The number of windows generated (classified)
+            "win_expected":  len(intervals),                # The number of windows expected
+        }
+
+
+def run_tests_3b(delta, test: Experiment):
+
+    # Define a limit
+    limit = pandas.Timedelta(seconds=60)
+
+    sample = Sample(
+            frame=test.estat_tcp_complete_frame, 
+                streambot_trace_file=test.streambot_trace_file, 
+                    platform_profile=platform_profile, delta=delta, limit=limit, minimum=0.86)
+
+    # Generate windows (STEP 1)
+    sample.generate_windows()
+
+    # Label windows (STEP 2)
+    sample.label_windows_3b([(view["first_row"], view["last_row"]) for view in test.views])
+
+    # Classify windows (STEP 3)
+    sample.classify_windows([(view["first_row"], view["last_row"]) for view in test.views])
+
+    return sample.stats
+
+def run_tests_3a(delta, test: Experiment):
+
+    # Define a limit
+    limit = pandas.Timedelta(seconds=60)
+
+    sample = Sample(
+            frame=test.estat_tcp_complete_frame, 
+                streambot_trace_file=test.streambot_trace_file, 
+                    platform_profile=platform_profile, delta=delta, limit=limit, minimum=0.86)
+
+    # Generate windows (STEP 1)
+    sample.generate_windows()
+
+    # Label windows (STEP 2)
+    sample.label_windows_3a([(view["first_row"], view["last_row"]) for view in test.views])
+
+    # Classify windows (STEP 3)
+    sample.classify_windows([(view["first_row"], view["last_row"]) for view in test.views])
+
+    return sample.stats
 
 if __name__ == "__main__":
 
-    desktop_profile = os.path.join(os.getcwd(), "desktop-profile.dat")
-    mobile_profile  = os.path.join(os.getcwd(), "mobile-profile.dat")
+    platform_profile = os.path.join(os.getcwd(), "desktop-profile.dat")
 
-    experiments: list[Experiment] = process_experiments(None, ["tg", "rai", "quattro", "cinque", "sport"])
+    # Process all experiments
+    tests = process_experiments(None, ["tg", "rai", "quattro", "cinque", "sport"])
 
-    for experiment in experiments:
+    print()
+    print()
 
-        # Inputs
-        tcp_complete_frame = experiment.estat_tcp_complete_frame
-        platform_profile = desktop_profile
-        streambot_trace_file = experiment.streambot_trace_file
+    y_vals = []
+    x_vals = []
+    p_vals = []
 
-        # Hyperparameters
-        delta = DELTA
-        limit = LIMIT
-        minimum = 0.86
+    # Define a delta range
+    for delta in pandas.timedelta_range(start='500ms', end='60s', freq='500ms'):
 
-        # Generate a new processor
-        processor: ViewsProcessor = ViewsProcessor(tcp_complete_frame, streambot_trace_file, platform_profile, delta, limit, minimum)
+        print(f"Processing with DELTA = {delta.total_seconds()} seconds")
+        print("_" * 100)
 
-        # Generate the windows
-        processor.generate_windows()
+        # Define statistics
+        tp, tn, fp, fn = 0, 0, 0, 0
 
-        # Print the generated windows
-        processor.print_raw_windows()
+        for numb, test in enumerate(tests):
+            stats = run_tests_3a(delta, test)
 
-        intervals = [(view["first_row"], view["last_row"]) for view in experiment.views]
+            # Update overall statistics for this delta
+            tp += stats["tp"]
+            tn += stats["tn"]
+            fp += stats["fp"]
+            fn += stats["fn"]
 
-        # Label the windows
-        processor.label_windows_3a(intervals)
+            print(f"{stats} experiment #{numb}")
 
-        # Classify the windows
-        processor.classify_windows()
-
-        print(f"EXPERIMENT")
-        print("-" * 100)
-
-        # Print the output
-        processor.print_classified_windows()
-
-        print("-" * 100)
+        # We exit the test, so it is time to print the overall statistics
+        print()
+        print()
+        print(f"Overall = TP: {tp}, FN: {fn}, FP: {fp}, TN: {tn}")
+        print()
         print()
 
+        # Compute True Positive Rate
+        tpr = tp / (tp + fn) if tp + fn > 0 else 0
 
+        # Compute False Positive Rate
+        fpr = fp / (fp + tn) if fp + tn > 0 else 0
+
+        x_vals.append(fpr)
+        y_vals.append(tpr)
+        p_vals.append(delta.total_seconds())
+
+    # Plot the ROC curve
+    plt.scatter(x=x_vals, y=y_vals, c='red', label='ROC dots')
+    plt.plot([0, 1], [0, 1], color='blue', linestyle='--', label='Random Guess')
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
+    plt.xlabel("FPR (False Positive Rate)")
+    plt.ylabel("TPR (True Positive Rate)")
+    plt.grid(True)
+    plt.legend()
+    plt.show()

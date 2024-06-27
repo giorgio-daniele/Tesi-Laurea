@@ -377,9 +377,9 @@ def process_experiments(platform: str, channels: list[str]):
 
     # If a platform is specified, use "supervised" as database
     if platform:
-        root = os.path.join(os.getcwd(), "supervised", platform)
+        root = os.path.join(os.getcwd(), "supervised_experiments", platform)
     else:
-        root = os.path.join(os.getcwd(), "unsupervised")
+        root = os.path.join(os.getcwd(), "unsupervised_experiments")
 
     files = fetch_traces(root)
     
@@ -410,7 +410,7 @@ def process_experiments(platform: str, channels: list[str]):
 def save_experiments_on_disk(experiments: list[Experiment], platform: str):
 
     numb = 0
-    root = os.path.join(os.getcwd(), f"events_{platform}")
+    root = os.path.join(os.getcwd(), f"streaming_intervals_{platform}")
 
     # If the output directory does not exist, create it. If it already exists,
     # cleanup all files in the directory

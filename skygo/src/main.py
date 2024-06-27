@@ -88,7 +88,6 @@ class Sample:
             print(window)
             print("-" * 50)
 
-
     def generate_windows(self):
 
         all_tokens = {}
@@ -152,7 +151,6 @@ class Sample:
 
         self.raw_windows = windows
 
-
     def label_windows_3a(self, intervals: list[tuple[int, int]]):
 
         visited = set()
@@ -188,7 +186,6 @@ class Sample:
                 item = (w_ts, w_te, window, "NEGATIVE")
                 self.lab_windows.append(item)
 
-
     def label_windows_3b(self, intervals: list[tuple[int, int]]):
 
         # Loop over all windows, selecting the timestamps of the first and last occurences,
@@ -212,7 +209,6 @@ class Sample:
             if not match:
                 item = (w_ts, w_te, window, "NEGATIVE")
                 self.lab_windows.append(item)
-
 
     def classify_windows(self, intervals):
 

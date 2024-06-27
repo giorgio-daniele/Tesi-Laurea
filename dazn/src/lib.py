@@ -1,21 +1,26 @@
+from collections import defaultdict
 import os
 import re
-import shutil
 import pandas
-from collections import OrderedDict
+import math
 
 # Estat extensions and prefixes
-ESTAT_EXT = ".csv"
-ESTAT_PFX = "tcp_log"
+ESTAT_TCP_EXT = ".csv"
+ESTAT_TCP_PFX = "tcp_trace"
+
+ESTAT_UDP_EXT = ".csv"
+ESTAT_UDP_PFX = "udp_trace"
+
 # Tstat extensions and prefixes
 TSTAT_EXT = ".pcap.out"
-TSTAT_PFX = "traces"
+TSTAT_PFX = "wireshark_trace"
+
 # Wireshark extensions and prefixes
-SHARK_PFX = "traces"
-SHARK_EXT = ".pcap"
+WIRESHARK_PFX = "wireshark_trace"
+WIRESHARK_EXT = ".pcap"
 # Streambot extensions and prefixes
-PYBOT_EXT = ".csv"
-PYBOT_PFX = "events"
+STREAMBOT_EXT = ".csv"
+STREAMBOT_PFX = "streambot_trace"
 
 PROTOCOLS = {
     0:      "Unknown",
@@ -56,357 +61,391 @@ TSTAT_COLUMNS = {
 }
 
 # Delimiters
-PYBOT_DEL = '\t'
-TSTAT_DEL = ' '
+BOT_DEL = "\t"
+TST_DEL = " "
 
 # Binaries
 TSTAT_PATH = "/usr/local/bin/tstat"
 
 
-def remove_files(tstat_files, estat_files):
-    for file in tstat_files + estat_files:
-        if os.path.isfile(file):
-            os.remove(file)
-        if os.path.isdir(file):
-            shutil.rmtree(file)
+class Experiment:
 
+    def __init__(self, wireshark_trace_file, streambot_trace_file):
 
-def fetch_files(dir, pfx, ext):
-    files = []
-    for f in os.listdir(dir):
-        if f.endswith(ext) and f.startswith(pfx):
-            files.append(os.path.join(dir, f))
-    return files
+        # Wireshark and Streambot trace files
+        self.wireshark_trace_file: str = wireshark_trace_file
+        self.streambot_trace_file: str = streambot_trace_file
 
+        # Ouput file (TCP log complete)
+        self.estat_tcp_complete_file:  str = None
+        self.estat_tcp_complete_frame: pandas.DataFrame = None
 
-def load_data_files(dir):
+        # Output file (UDP log complete)
+        self.estat_udp_complete_file:  str = None
+        self.estat_udp_complete_frame: pandas.DataFrame = None
+        
+        # Input file (TCP log complete)
+        self.tstat_tcp_complete_file: str = None
 
-    if not os.path.exists(dir) or not os.listdir(dir):
-        print(f"Error: {dir} may not exist or be empty.")
-        return None, None
+        # Input file (UDP log complete)
+        self.tstat_udp_complete_file: str = None
+        
+        # Estat dataframe
+        self.estat_tcp_complete_frame: pandas.DataFrame = None
 
-    tstat_files = fetch_files(dir, TSTAT_PFX, TSTAT_EXT)
-    estat_files = fetch_files(dir, ESTAT_PFX, ESTAT_EXT)
-    remove_files(tstat_files, estat_files)
+        # Views
+        self.views: list[object] = []
 
-    shark_files = fetch_files(dir, SHARK_PFX, SHARK_EXT)
-    pybot_files = fetch_files(dir, PYBOT_PFX, PYBOT_EXT)
+    def __str__(self):
+        
+        text = f"""Material:
+        Wireshark Trace = {self.wireshark_trace_file}
+        Streambot Trace = {self.streambot_trace_file}
+        """
+        return text
 
-    shark_files = sorted(shark_files)
-    pybot_files = sorted(pybot_files)
+    def tstat_wireshark_trace(self):
 
-    return shark_files, pybot_files
+        # Compile Wireshark trace
+        os.system(f"{TSTAT_PATH} {self.wireshark_trace_file} > /dev/null")
 
+        # Generate the name of Tstat ouput directory
+        tstat_out_dir = self.wireshark_trace_file.replace(WIRESHARK_EXT, TSTAT_EXT)
 
-def load_data_frames(dir):
+        # Loop overe all Tstat ouput
+        for dir in os.listdir(tstat_out_dir):
 
-    if not os.path.exists(dir) or not os.listdir(dir):
-        print(f"Error: {dir} may not exist or be empty.")
-        return None, None
+            # Generate the name of the current directory
+            dir_path = os.path.join(tstat_out_dir, dir)
 
-    estat_files = fetch_files(dir, ESTAT_PFX, ESTAT_EXT)
-    pybot_files = fetch_files(dir, PYBOT_PFX, PYBOT_EXT)
+            # Loop over TXT documents
+            for log in os.listdir(dir_path):
 
-    estat_files = sorted(estat_files)
-    pybot_files = sorted(pybot_files)
+                # Move all TXT files into the parent directory
+                old_path = os.path.join(dir_path, log)
+                new_path = os.path.join(tstat_out_dir, log)
+                os.rename(old_path, new_path)
+            
+            # Remove the empty folder
+            os.rmdir(dir_path)
 
-    estat_frames = [pandas.read_csv(f, delimiter=TSTAT_DEL) for f in estat_files]
-    pybot_frames = [pandas.read_csv(f, delimiter=PYBOT_DEL) for f in pybot_files]
+            # Stop here: do not process next following directories
+            break
 
-    return estat_frames, pybot_frames
+        # Get trace TCP log complete (input file)
+        self.tstat_tcp_complete_file = os.path.join(tstat_out_dir, "log_tcp_complete")
 
+        # Get trace UDP log complete (input file)
+        self.tstat_udp_complete_file = os.path.join(tstat_out_dir, "log_udp_complete")
 
-def skygo_tokenizer(record):
-    cname = ""
-    proto = "PROTO"
+        # Generate the frame and the file trace for TCP (output file)
+        self.estat_tcp_complete_file = self.wireshark_trace_file.replace(WIRESHARK_EXT, ESTAT_TCP_EXT)
+        self.estat_tcp_complete_file = self.estat_tcp_complete_file.replace(WIRESHARK_PFX, ESTAT_TCP_PFX)
+        
+        # Generate the frame associated to the TCP log complete
+        self.estat_tcp_complete_frame, self.streambot_trace_frame = etstat_tcp_complete(
+            self.tstat_tcp_complete_file,           # Tstat file (input file)
+                self.streambot_trace_file,          # Streambot file (input file)
+                    self.estat_tcp_complete_file)   # Estat file (output file)
 
-    if proto in record:
-        if record[proto] == "TLS":
-            if "CN_CL" in record and record["CN_CL"] != "-":
-                cname = record["CN_CL"]
-        elif record[proto] == "HTTP":
-            if "HT_HN" in record and record["HT_HN"] != "-":
-                cname = record["HT_HN"]
+        # Generate the frame and the file trace for UDP (output file)
+        self.estat_udp_complete_file = self.wireshark_trace_file.replace(WIRESHARK_EXT, ESTAT_UDP_EXT)
+        self.estat_udp_complete_file = self.estat_udp_complete_file.replace(WIRESHARK_PFX, ESTAT_UDP_PFX)
 
-    if cname == "":
-        if "CN_DQ" in record and record["CN_DQ"] != "-":
-            cname = record["CN_DQ"]
+        # # Generate the frame associated to the UDP log complete
+        # self.estat_tcp_complete_frame = etstat_tcp_complete(
+        #     self.tstat_tcp_complete_file,           # Tstat file (input file)
+        #         self.streambot_trace_file,          # Streambot file (input file)
+        #             self.estat_tcp_complete_file)   # Estat file (output file)
 
-    if cname == "":
-        cname = "NONE"
+        # Clean all Tstat outputs
+        logs = [os.path.join(tstat_out_dir, f) for f in os.listdir(tstat_out_dir)]
+        for log in logs:
+            os.remove(log)
+        os.removedirs(tstat_out_dir)
 
-    domains = cname.split(".")
-    cname = ".".join(domains[-3:])
-    cname = re.sub(r"\d+", "#", cname)
+    def filter_views(self, channels):
+        
+        # By combining an oracle (something that tells when something happens)
+        # and the Estat trace, we can filter TCP and (maybe UDP) flows during
+        # a multimedia stream
 
-    return cname
+        # Remove anything from Streambot frame that is not a channel log
+        filtered_bot = self.streambot_trace_frame[self.streambot_trace_frame["EVENT"].str.contains("|".join(channels))]
+
+        # Remove anything from Estat frame (TCP) in which the token is not available
+        filtered_tcp = self.estat_tcp_complete_frame[self.estat_tcp_complete_frame["TOKEN"] != "NONE"]
+
+        # Generate a list with all timestamps, the ones at which a view is started
+        # and stopped.
+        points = filtered_bot["FROM_ORIGIN_MS"].tolist()
+
+        # Loop over points, by coupling ts (time start) and te (time end)
+        for ts, te in zip(points[::2], points[1::2]):
+            
+            # Isolate the window in which each flows has been started
+            # after ts and before te
+            window = filtered_tcp[(filtered_tcp["TS_FP"] >= ts) & (filtered_tcp["TS_FP"] <= te)]
+
+            # Add to views list, the previous one (if not empty)
+            if len(window) > 0:
+
+                # Generate an object with some highlights
+                view = {
+                    "started":    window["DT_FP"].min(),        # Save the timestamp of flows that has started as first        
+                    "finished":   window["DT_FP"].max(),        # Save the timestamp of flows that has finished as last
+                    "first_row":  window["DT_FP"].idxmin(),     # Save the index of flow that has started as first
+                    "last_row":   window["DT_FP"].idxmax(),     # Save the index of flow that has finished as last
+                    "window":     window,                       # Save the dataframe
+                    "tokens":     window["TOKEN"].tolist()      # Save the list of tokens associated to all flows
+                }
+
+                # Add this view to the list of views
+                self.views.append(view)
 
 
 def dazn_tokenizer(record):
-    cname = ""
+    
+    token = ""
     proto = "PROTO"
 
+    # Determine the cname based on the protocol
     if proto in record:
         if record[proto] == "TLS":
             if "CN_CL" in record and record["CN_CL"] != "-":
-                cname = record["CN_CL"]
+                token = record["CN_CL"]
         elif record[proto] == "HTTP":
             if "HT_HN" in record and record["HT_HN"] != "-":
-                cname = record["HT_HN"]
+                token = record["HT_HN"]
 
-    if cname == "":
+    # If cname is still empty, check CN_DQ
+    if token == "":
         if "CN_DQ" in record and record["CN_DQ"] != "-":
-            cname = record["CN_DQ"]
+            token = record["CN_DQ"]
 
-    if cname == "":
-        cname = "NONE"
+    # If cname is still empty, set to "NONE"
+    if token == "":
+        token = "NONE"
 
-    cname = cname.replace("-", ".")
-    domains = cname.split(".")
-    cname = ".".join(domains[-3:])
-    cname = re.sub(r"\d+", "#", cname)
-    return cname
+    # Replace hyphens with dots
+    token = token.replace("-", ".")
+    
+    # Split the domain into parts
+    domains = token.split(".")
+
+    # Check if the domain has at least three parts
+    if len(domains) >= 3:
+        # Join the third last and second last elements, ignoring the TLD
+        token = ".".join(domains[-3:-1])
+    else:
+        # If the domain has fewer than three parts, join all parts
+        token = ".".join(domains)
+
+    # Replace numbers with #
+    token = re.sub(r"\d+", "#", token)
+
+    return token
 
 
-def estat(tstat_file, pybot_file, estat_file, provider):
+def generate_proto(record):
 
-    def generate_proto(record):
-        name = record["PROTO"]
-        name = PROTOCOLS[name]
-        if name == None:
-            return "NONE"
-        return name
+    name = record["PROTO"]
+    name = PROTOCOLS[name]
 
-    # Generate Estat dataframe
-    estat_frame = pandas.read_csv(tstat_file, delimiter=TSTAT_DEL)
-    vals = list(TSTAT_COLUMNS.values())
-    keys = list(TSTAT_COLUMNS.keys())
-    estat_frame = estat_frame.iloc[:, vals]
-    estat_frame.columns = keys
+    return "NONE" if name == None else name
 
-    # Generate PyBot dataframe
-    pybot_frame = pandas.read_csv(pybot_file, delimiter=PYBOT_DEL)
 
-    # Align Estat timestamps to PyBot origin
-    origin = pybot_frame.loc[0, "UNIX_TS"]
-    estat_frame["TS_FP"] -= float(origin)
-    estat_frame["TS_LP"] -= float(origin)
+def etstat_tcp_complete(tstat_tcp_complete_file, streambot_trace_file, estat_tcp_complete_file):
+
+    # Generate a frame from Streambot trace
+    bot_frame : pandas.DataFrame = pandas.read_csv(streambot_trace_file, delimiter=BOT_DEL)
+
+    # Generate a frame from Estat TCP trace
+    tcp_frame : pandas.DataFrame = pandas.read_csv(tstat_tcp_complete_file, delimiter=TST_DEL)
+
+    # Generate a frame in which just few columns are used,
+    # so you select just a slice of the original frame columns
+    values  = list(TSTAT_COLUMNS.values())
+    columns = list(TSTAT_COLUMNS.keys())
+
+    tcp_frame = tcp_frame.iloc[:, values]
+    tcp_frame.columns = columns
+
+    # Make the origin in the Streambot frame the origin for all flows
+    # in the TCP summary frame
+    origin = bot_frame.loc[0, "UNIX_TS"]
+    tcp_frame["TS_FP"] -= float(origin)
+    tcp_frame["TS_LP"] -= float(origin)
 
     # Generate date format in Estat dataframe
-    estat_frame["DT_FP"] = pandas.to_datetime(
-        estat_frame["TS_FP"], unit="ms", origin="unix")
-    estat_frame["TS_LP"] = pandas.to_datetime(
-        estat_frame["TS_LP"], unit="ms", origin="unix")
+    tcp_frame["DT_FP"] = pandas.to_datetime(tcp_frame["TS_FP"], unit="ms", origin="unix")
+    tcp_frame["TS_LP"] = pandas.to_datetime(tcp_frame["TS_LP"], unit="ms", origin="unix")
 
-    # Generate Canonical Name in Estat dataframe
-    if provider == "skygo":
-        estat_frame["CNAME"] = estat_frame.apply(skygo_tokenizer, axis=1)
-    if provider == "dazn":
-        estat_frame["CNAME"] = estat_frame.apply(dazn_tokenizer, axis=1)
+    # Generate a human readable protocol value
+    tcp_frame["PROTO"] = tcp_frame.apply(generate_proto, axis=1)
 
-    estat_frame["PROTO"] = estat_frame.apply(generate_proto, axis=1)
-    # Generate description in Estat dataframe
-    # estat_frame["BRIEF"] = estat_frame.apply(generate_brief, axis=1)
+    # Generate the token
+    tcp_frame["TOKEN"] = tcp_frame.apply(dazn_tokenizer, axis=1)
 
     # Sort Estat dataframe by date of first packet
-    estat_frame.sort_values(by="TS_FP", inplace=True)
-    estat_frame.reset_index(drop=True, inplace=True)
-    estat_frame.index += 1
+    tcp_frame.sort_values(by="TS_FP", inplace=True)
+    tcp_frame.reset_index(drop=True, inplace=True)
+    tcp_frame.index += 1
 
-    # Write Estat dataframe to file
-    estat_frame.to_csv(estat_file, sep=TSTAT_DEL, index=False, header=True)
+    # Write the result on disk
+    tcp_frame.to_csv(estat_tcp_complete_file, sep=TST_DEL, index=False, header=True)
 
-
-def find_events(folders, channels):
-    medias, traces = [], []
-
-    # Load data as data frames
-    for folder in folders:
-        ms, ts = load_data_frames(folder)
-        medias.extend(ms)
-        traces.extend(ts)
-
-    docs = []
-
-    for media, trace in zip(medias, traces):
-
-        # Remove all bot event that are not related to any multimedia start-stop
-        trace = trace[trace["EVENT"].str.contains("|".join(channels))]
-        # Remove all unrecognized flows
-        media = media[media["CNAME"] != "NONE"]
-
-        tims = trace["FROM_ORIGIN_MS"].tolist()
-        for ts, te in zip(tims[::2], tims[1::2]):
-            event = media[(media["TS_FP"] >= ts) & (media["TS_FP"] <= te)]
-            if not event.empty:
-                docs.append(event["CNAME"].tolist())
-
-    for folder in folders:
-
-        plt = folder.split("_")[1]
-        dir = os.path.join(os.getcwd(), f"events_{plt}")
-
-        # Remove all previous result
-        if os.path.exists(dir):
-            files = os.listdir(dir)
-            files = [os.path.join(dir, file) for file in files]
-            for f in files:
-                os.remove(f)
-            os.removedirs(dir)
-        os.mkdir(dir)
-
-        for i, doc in enumerate(docs):
-            file_path = os.path.join(dir, f"doc-{i}.txt")
-            with open(file_path, "w") as f:
-                f.write("\n".join(doc) + "\n")
+    # Return the frame
+    return tcp_frame, bot_frame
 
 
-def determine_stream_token(folders, channels, out):
-    medias, traces = [], []
+def compute_profile(experiments: list[Experiment], output: str):
 
-    # Load data as data frames
-    for folder in folders:
-        ms, ts = load_data_frames(folder)
-        medias.extend(ms)
-        traces.extend(ts)
+    # Extract all views from the experiments
+    views = [view for experiment in experiments for view in experiment.views]
 
-    stats = []
+    # Count occurrences of tokens (Term Frequency - TF)
+    token_counts = defaultdict(int)
+    for view in views:
+        for token in set(view["tokens"]):
+            token_counts[token] += 1
 
-    for media, trace in zip(medias, traces):
+    # Count the number of documents containing each token (Inverse Document Frequency - IDF)
+    document_frequencies = defaultdict(int)
+    total_documents = len(views)
 
-        # Remove all bot event that are not related to any multimedia start-stop
-        trace = trace[trace["EVENT"].str.contains("|".join(channels))]
-        # Remove all unrecognized flows
-        media = media[media["CNAME"] != "NONE"]
+    for view in views:
+        seen_tokens = set()
+        for token in view["tokens"]:
+            if token not in seen_tokens:
+                document_frequencies[token] += 1
+                seen_tokens.add(token)
 
-        tims = trace["FROM_ORIGIN_MS"].tolist()
-        for ts, te in zip(tims[::2], tims[1::2]):
-            event = media[(media["TS_FP"] >= ts) & (media["TS_FP"] <= te)]
-            if not event.empty:
-                down = event.groupby("CNAME")["DW_BY"].sum().to_dict()
-                stats.append(max(down, key=down.get))
+    # Calculate TF-IDF and save the results
+    with open(output, "w") as f:
+        
+        # Sort the tokens by using frequncies as key
+        sorted_tokens = sorted(token_counts.items(), key=lambda item: item[1], reverse=True)
 
-    cnt = {stat: stats.count(stat) for stat in stats}
-    tot = sum(cnt.values())
+        for token, count in sorted_tokens:
 
-    with open(out, "w") as f:
-        for key, value in cnt.items():
-            probability = value / tot
-            f.write(f"{key}\t{probability:.1f}\n")
+            # Term Frequency (TF)
+            tf = count / len(views)
+            
+            # Inverse Document Frequency (IDF)
+            idf = math.log(total_documents / document_frequencies[token])
 
+            # Calculate TF-IDF
+            tf_idf = tf * idf
 
-def process_folders(folders, provider):
-    sharks, traces = [], []
-
-    # Load data from disk
-    for folder in folders:
-        shks, evts = load_data_files(folder)
-        sharks.extend(shks)
-        traces.extend(evts)
-
-    # Generate Tstat output files
-    for i, shark in enumerate(sharks):
-        os.system(f"{TSTAT_PATH} {shark} > /dev/null")
-
-    # Clean each Tstat output
-    for i, shark in enumerate(sharks):
-        root = shark.replace(SHARK_EXT, TSTAT_EXT)
-        dirs = [os.path.join(root, dir) for dir in os.listdir(root)]
-
-        for dir in dirs:
-            logs = [os.path.join(dir, f) for f in os.listdir(dir)]
-            for log in logs:
-                new = os.path.join(root, os.path.basename(log))
-                os.rename(log, new)
-            os.rmdir(dir)
-            break
-
-    file = "log_tcp_complete"
-    # Run Estat on each TCP log complete
-    for i, shark in enumerate(sharks):
-        root = shark.replace(SHARK_EXT, TSTAT_EXT)
-        tstat_log = os.path.join(root, file)
-        estat_log = shark.replace(SHARK_PFX, ESTAT_PFX).replace(SHARK_EXT, ESTAT_EXT)
-        estat(tstat_log, traces[i], estat_log, provider)
-
-    # Clean Tstat output
-    for shark in sharks:
-        root = shark.replace(SHARK_EXT, TSTAT_EXT)
-        logs = [os.path.join(root, f) for f in os.listdir(root)]
-        for log in logs:
-            os.remove(log)
-        os.removedirs(root)
+            #f.write(f"{tf_idf:.4f}\t{tf:.4f}\t{token}\n")
+            f.write(f"{tf:.4f}\t{token}\n")
 
 
-def find_cas(folders, cas_file):
-    docs = []
+def fetch_traces(root: str):
 
-    for folder in folders:
-        files = [os.path.join(folder, f) for f in os.listdir(folder)]
+    wireshark_ext = ".pcap"
+    streambot_ext = ".csv"
 
-        for file in files:
-            with open(file, "r") as f:
-                doc = []
-                for line in f:
-                    doc.append(line.strip())
-                doc = set(doc)
-                docs.append(list(doc))
+    wireshark_pfx = "wireshark_trace"
+    streambot_pfx = "streambot_trace"
 
-    cas = set(docs[0])
-    for doc in docs[1:]:
-        cas &= set(doc)
+    files: list[str] = [os.path.join(root, f) for f in os.listdir(root)]
 
-    with open(cas_file, "w") as f:
-        for word in list(cas):
-            f.write(f"{word}\n")
+    # Get all Wireshark traces
+    wireshark_traces_path: list[str] = [f for f in files 
+        if os.path.basename(f).endswith(wireshark_ext) and os.path.basename(f).startswith(wireshark_pfx)
+    ]
 
-def find_fad(folders, cas_file, media_file, fad_file):
-    docs  = []
-    keys  = []
-    media = []
+    # Get all Streambot traces
+    streambot_traces_path: list[str] = [f for f in files
+        if os.path.basename(f).endswith(streambot_ext) and os.path.basename(f).startswith(streambot_pfx)
+    ]
 
-    with open(cas_file, "r") as f:
-        for line in f:
-            name = line.strip().split("\t")[0]
-            keys.append(name)
-
-    with open(media_file, "r") as f:
-        for line in f:
-            name = line.strip().split("\t")[0]
-            media.append(name)
-
-    for folder in folders:
-        files = [os.path.join(folder, f) for f in os.listdir(folder)]
-
-        for file in files:
-            with open(file, "r") as f:
-                doc = []
-                for line in f:
-                    name = line.strip()
-                    if name in keys:
-                        doc.append(name)
-                doc = OrderedDict.fromkeys(doc)
-                docs.append(list(doc))
+    # Return the result
+    return zip(sorted(wireshark_traces_path), sorted(streambot_traces_path))
 
 
-    docs = [[word for word in OrderedDict.fromkeys(doc)] for doc in docs]
-    pivt = None
-    if len(media) > 0:
-        pivt = media[0]
+def process_experiments(platform: str, channels: list[str]):
 
-    fad = {}
-    for doc in docs:
-        if pivt in doc:
-            index = doc.index(pivt)
-            if index > 0:
-                prev = doc[index - 1]
-                if prev in fad:
-                    fad[prev] += 1
-                else:
-                    fad[prev] = 1
+    # Define a list of Samples
+    experiments : list[Experiment] = []
 
-    with open(fad_file, "w") as f:
-        tot = len(docs)
-        for key, value in fad.items():
-            prob = value / tot
-            f.write(f"{key}\t{prob:.1f}\n")
+    # If a platform is specified, use "supervised" as database
+    if platform:
+        root = os.path.join(os.getcwd(), "supervised_experiments", platform)
+    else:
+        root = os.path.join(os.getcwd(), "unsupervised_experiments")
+
+    files = fetch_traces(root)
+    
+    print(f"Processing experiments for platform: {platform}")
+
+    # Generate SupervisedSample objects
+    for wireshark_trace_file, streambot_trace_file in files:
+        experiments.append(Experiment(wireshark_trace_file, streambot_trace_file))
+
+    # Compile and process all experiments
+    for experiment in experiments:
+        experiment.tstat_wireshark_trace()
+        experiment.filter_views(channels)
+
+    print(f"Finished compiling and processing experiments for {platform}")
+    
+    # If a platform is not specified, return the list of experiments
+    if platform is None:
+        return experiments
+
+    # If a platform is specified, save each experiment on disk
+    save_experiments_on_disk(experiments, platform)
+
+    # Generate the profile for that platform
+    define_platform_profile(experiments, platform)
+
+
+def save_experiments_on_disk(experiments: list[Experiment], platform: str):
+
+    numb = 0
+    root = os.path.join(os.getcwd(), f"streaming_intervals_{platform}")
+
+    # If the output directory does not exist, create it. If it already exists,
+    # cleanup all files in the directory
+
+    if os.path.exists(root):
+
+        # Remove all files in the output directory
+        for f in os.listdir(root):
+            os.remove(os.path.join(root, f))
+
+    else:
+        os.mkdir(root)
+
+    print(f"Saving samples for platform: {platform}")
+
+    for experiment in experiments:
+
+        # Get the registered views for this experiment
+        for view in experiment.views:
+            
+            path = os.path.join(root, f"sample-{numb}.dat")
+            with open(path, "w") as f:
+
+                # Loop over all tokens registered in the view
+                for token in view["tokens"]:
+                    f.write(f"{token}\n")
+            numb += 1
+
+    print(f"Finished saving samples for {platform}")
+
+
+def define_platform_profile(experiments: list[Experiment], platform: str):
+
+    profile = os.path.join(os.getcwd(), f"{platform}-profile.dat")
+    if os.path.exists(profile):
+        os.remove(profile)
+
+    print(f"Computing {platform} profile...")
+
+    compute_profile(experiments, profile)
+    
+    print(f"Finished computing {platform} profile. Profile saved to {profile}")

@@ -163,15 +163,15 @@ cython_debug/
 
 
 # Ignore all traces (Unsupervised)
-skygo/unsupervised/*.pcap
+skygo/unsupervised_experiments/*.pcap
 
 
 # Ignore all traces (Supervised)
-skygo/supervised/*/*.pcap
+skygo/supervised_experiments/*/*.pcap
 # Ignore all events
-skygo/supervised/*/*.csv
+skygo/supervised_experiments/*/*.csv
 
 # Ignore all traces (Supervised)
-dazn/supervised/*/traces*.pcap
+dazn/supervised_experiments/*/*.pcap
 # Ignore all events
-dazn/supervised/*/events*.csv
+dazn/supervised_experiments/*/*.csv

@@ -22,8 +22,10 @@ WIRESHARK_EXT = ".pcap"
 STREAMBOT_EXT = ".csv"
 STREAMBOT_PFX = "streambot_trace"
 
-PROTOCOLS = {
-    0:      "Unknown",
+
+# Anything related to TCP
+TCP_L7_PROTOCOLS = {
+    0:      "UNKNOWN",
     1:      "HTTP",
     2:      "RTSP",
     4:      "RTP",
@@ -44,7 +46,7 @@ PROTOCOLS = {
     131072: "MSE/PE",
 }
 
-TSTAT_COLUMNS = {
+TSTAT_TCP_COLUMNS = {
     "CL_IP": 0,     # CLIENT_IP
     "SV_IP": 14,    # SERVER_IP
     "CL_PR": 1,     # CLIENT_PORT
@@ -60,13 +62,60 @@ TSTAT_COLUMNS = {
     "PROTO": 41,    # PROTOCOL
 }
 
+# Anything related to UDP
+TSTAT_UDP_COLUMNS = {
+    "CL_IP": 0,     # CLIENT_IP
+    "SV_IP": 9,     # SERVER_IP
+    "CL_PR": 1,     # CLIENT_PORT
+    "SV_PR": 10,    # SERVER_PORT
+    "UP_BY": 4,     # UPLOADED_BYTES
+    "DW_BY": 13,    # DWLOADED_BYTES
+    "FP_CL": 2,     # FIRST_PACKET_CLIENT
+    "FP_SV": 11,    # FIRST_PACKET_SERVER
+    "CL_PT": 8,     # CLIENT_PROTOCOL
+    "SV_PT": 17,    # SERVER_PROTOCOL
+    "CN_DQ": 18,    # CNAME_DNS_QUERY
+}
+
+UDP_L7_PROTOCOLS = {
+
+    0:  "UNKNOWN",
+    1:  "FIRST_RTP",
+    2:  "FIRST_RTCP",
+    3:  "RTP",
+    4:  "RTCP",
+    5:  "SKYPE_E2E",
+    6:  "SKYPE_E2O",
+    7:  "SKYPE_SIG",
+    8:  "P2P_ED2K",
+    9:  "P2P_KAD",
+    10: "P2P_KADU",
+    11: "P2P_GNU",
+    12: "P2P_BT",
+    13: "P2P_DC",
+    14: "P2P_KAZAA",
+    15: "P2P_PPLIVE",
+    16: "P2P_SOPCAST",
+    17: "P2P_TVANTS",
+    18: "P2P_OKAD",
+    19: "DNS",
+    20: "P2P_UTP",
+    21: "P2P_UTPBT",
+    22: "UDP_VOD",
+    23: "P2P_PPSTREAM",
+    24: "TEREDO",
+    25: "UDP_SIP",
+    26: "UDP_DTLS",
+    27: "UDP_QUIC"
+
+}
+
 # Delimiters
 BOT_DEL = "\t"
 TST_DEL = " "
 
 # Binaries
 TSTAT_PATH = "/usr/local/bin/tstat"
-
 
 class Experiment:
 
@@ -145,7 +194,7 @@ class Experiment:
         self.estat_tcp_complete_file = self.estat_tcp_complete_file.replace(WIRESHARK_PFX, ESTAT_TCP_PFX)
         
         # Generate the frame associated to the TCP log complete
-        self.estat_tcp_complete_frame, self.streambot_trace_frame = etstat_tcp_complete(
+        self.estat_tcp_complete_frame, self.streambot_trace_frame = estat_tcp_complete(
             self.tstat_tcp_complete_file,           # Tstat file (input file)
                 self.streambot_trace_file,          # Streambot file (input file)
                     self.estat_tcp_complete_file)   # Estat file (output file)
@@ -154,11 +203,11 @@ class Experiment:
         self.estat_udp_complete_file = self.wireshark_trace_file.replace(WIRESHARK_EXT, ESTAT_UDP_EXT)
         self.estat_udp_complete_file = self.estat_udp_complete_file.replace(WIRESHARK_PFX, ESTAT_UDP_PFX)
 
-        # # Generate the frame associated to the UDP log complete
-        # self.estat_tcp_complete_frame = etstat_tcp_complete(
-        #     self.tstat_tcp_complete_file,           # Tstat file (input file)
-        #         self.streambot_trace_file,          # Streambot file (input file)
-        #             self.estat_tcp_complete_file)   # Estat file (output file)
+        # Generate the frame associated to the UDP log complete
+        self.estat_udp_complete_frame = estat_udp_complete(
+            self.tstat_udp_complete_file,           # Tstat file (input file)
+                self.streambot_trace_file,          # Streambot file (input file)
+                    self.estat_udp_complete_file)   # Estat file (output file)
 
         # Clean all Tstat outputs
         logs = [os.path.join(tstat_out_dir, f) for f in os.listdir(tstat_out_dir)]
@@ -206,9 +255,7 @@ class Experiment:
                 # Add this view to the list of views
                 self.views.append(view)
 
-
-
-def skygo_tokenizer(record):
+def tokenizer(record):
     
     token = ""
     proto = "PROTO"
@@ -251,15 +298,71 @@ def skygo_tokenizer(record):
     return token
 
 
-def generate_proto(record):
+def associate_l7_protocol_to_tcp_connection(record):
 
     name = record["PROTO"]
-    name = PROTOCOLS[name]
+    name = TCP_L7_PROTOCOLS[name]
 
     return "NONE" if name == None else name
 
+def associate_l7_protocol_to_udp_connection_client(record):
 
-def etstat_tcp_complete(tstat_tcp_complete_file, streambot_trace_file, estat_tcp_complete_file):
+    name = record["CL_PT"]
+    name = UDP_L7_PROTOCOLS[name]
+
+    return "NONE" if name == None else name
+
+def associate_l7_protocol_to_udp_connection_server(record):
+
+    name = record["SV_PT"]
+    name = UDP_L7_PROTOCOLS[name]
+
+    return "NONE" if name == None else name
+
+def estat_udp_complete(tstat_udp_complete_file, streambot_trace_file, estat_udp_complete_file):
+
+    # Generate a frame from Streambot trace
+    bot_frame : pandas.DataFrame = pandas.read_csv(streambot_trace_file, delimiter=BOT_DEL)
+
+    # Generate a frame from Estat UDP trace
+    udp_frame : pandas.DataFrame = pandas.read_csv(tstat_udp_complete_file, delimiter=TST_DEL)
+
+    # Generate a frame in which just few columns are used,
+    # so you select just a slice of the original frame columns
+    values  = list(TSTAT_UDP_COLUMNS.values())
+    columns = list(TSTAT_UDP_COLUMNS.keys())
+
+    udp_frame = udp_frame.iloc[:, values]
+    udp_frame.columns = columns
+
+    # Make the origin in the Streambot frame the origin for all flows
+    # in the UDP summary frame
+    origin = bot_frame.loc[0, "UNIX_TS"]
+    # Apply subtraction to FP_CL only if its value is not 0
+    udp_frame.loc[udp_frame["FP_CL"] != 0, "FP_CL"] -= float(origin)
+
+    # Apply subtraction to FP_SV only if its value is not 0
+    udp_frame.loc[udp_frame["FP_SV"] != 0, "FP_SV"] -= float(origin)
+
+    # Generate a human readable protocol value
+    udp_frame["CL_PT"] = udp_frame.apply(associate_l7_protocol_to_udp_connection_client, axis=1)
+    udp_frame["SV_PT"] = udp_frame.apply(associate_l7_protocol_to_udp_connection_server, axis=1)
+
+    # Generate the token
+    udp_frame["TOKEN"] = udp_frame.apply(tokenizer, axis=1)
+
+    # Sort Estat dataframe by date of first packet
+    udp_frame.sort_values(by="FP_CL", inplace=True)
+    udp_frame.reset_index(drop=True, inplace=True)
+    udp_frame.index += 1
+
+    # Write the result on disk
+    udp_frame.to_csv(estat_udp_complete_file, sep=TST_DEL, index=False, header=True)
+
+    # Return the frame
+    return udp_frame
+
+def estat_tcp_complete(tstat_tcp_complete_file, streambot_trace_file, estat_tcp_complete_file):
 
     # Generate a frame from Streambot trace
     bot_frame : pandas.DataFrame = pandas.read_csv(streambot_trace_file, delimiter=BOT_DEL)
@@ -269,8 +372,8 @@ def etstat_tcp_complete(tstat_tcp_complete_file, streambot_trace_file, estat_tcp
 
     # Generate a frame in which just few columns are used,
     # so you select just a slice of the original frame columns
-    values  = list(TSTAT_COLUMNS.values())
-    columns = list(TSTAT_COLUMNS.keys())
+    values  = list(TSTAT_TCP_COLUMNS.values())
+    columns = list(TSTAT_TCP_COLUMNS.keys())
 
     tcp_frame = tcp_frame.iloc[:, values]
     tcp_frame.columns = columns
@@ -286,10 +389,10 @@ def etstat_tcp_complete(tstat_tcp_complete_file, streambot_trace_file, estat_tcp
     tcp_frame["DT_LP"] = pandas.to_datetime(tcp_frame["TS_LP"], unit="ms", origin="unix")
 
     # Generate a human readable protocol value
-    tcp_frame["PROTO"] = tcp_frame.apply(generate_proto, axis=1)
+    tcp_frame["PROTO"] = tcp_frame.apply(associate_l7_protocol_to_tcp_connection, axis=1)
 
     # Generate the token
-    tcp_frame["TOKEN"] = tcp_frame.apply(skygo_tokenizer, axis=1)
+    tcp_frame["TOKEN"] = tcp_frame.apply(tokenizer, axis=1)
 
     # Sort Estat dataframe by date of first packet
     tcp_frame.sort_values(by="TS_FP", inplace=True)
@@ -301,7 +404,6 @@ def etstat_tcp_complete(tstat_tcp_complete_file, streambot_trace_file, estat_tcp
 
     # Return the frame
     return tcp_frame, bot_frame
-
 
 def compute_profile(experiments: list[Experiment], output: str):
 
@@ -345,7 +447,6 @@ def compute_profile(experiments: list[Experiment], output: str):
             #f.write(f"{tf_idf:.4f}\t{tf:.4f}\t{token}\n")
             f.write(f"{tf:.4f}\t{token}\n")
 
-
 def fetch_traces(root: str):
 
     wireshark_ext = ".pcap"
@@ -368,7 +469,6 @@ def fetch_traces(root: str):
 
     # Return the result
     return zip(sorted(wireshark_traces_path), sorted(streambot_traces_path))
-
 
 def process_experiments(platform: str, channels: list[str]):
 

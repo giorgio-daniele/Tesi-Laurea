@@ -163,8 +163,6 @@ class DaznDesktopApp():
 
         url = channel["url"]
 
-        print(f"Name = {channel['name']}, URL = {url}")
-
         pyautogui.hotkey("ctrl", "l")
         pyautogui.write(url)
         pyautogui.press("enter")
@@ -268,6 +266,18 @@ class Sample():
 
         # Await before stepping into the next experiment
         await_millis(TIME_BASE)
+
+        # Get the screen size
+        w, h = pyautogui.size()
+
+        # Generate the coordinates of the center
+        x = int(w * 0.5)
+        y = h // 2
+
+        # Move the mouse to the center of the screen
+        # (avoiding to hide the icon for next round)
+        pyautogui.moveTo(x, y)
+
         return True
 
 
@@ -326,7 +336,7 @@ if __name__ == "__main__":
     # Add the argument to the command line
     parser.add_argument('--number', type=int, default=1, choices=[1, 2], help='Experiment number')
     parser.add_argument('--repetitions', type=int, default=10, help='Number of repetitions')
-    parser.add_argument('--interface', type=str, default='Local', help='Interface')
+    parser.add_argument('--interface', type=str, default='Wi-Fi', help='Interface')
 
     args = parser.parse_args()
 

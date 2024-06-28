@@ -279,7 +279,7 @@ def etstat_tcp_complete(tstat_tcp_complete_file, streambot_trace_file, estat_tcp
 
     # Generate date format in Estat dataframe
     tcp_frame["DT_FP"] = pandas.to_datetime(tcp_frame["TS_FP"], unit="ms", origin="unix")
-    tcp_frame["TS_LP"] = pandas.to_datetime(tcp_frame["TS_LP"], unit="ms", origin="unix")
+    tcp_frame["DT_LP"] = pandas.to_datetime(tcp_frame["TS_LP"], unit="ms", origin="unix")
 
     # Generate a human readable protocol value
     tcp_frame["PROTO"] = tcp_frame.apply(generate_proto, axis=1)

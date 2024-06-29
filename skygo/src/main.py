@@ -311,10 +311,10 @@ def run_tests_3b(delta, test: Experiment):
     sample.generate_windows()
 
     # Label windows (STEP 2)
-    sample.label_windows_3b([(view["first_row"], view["last_row"]) for view in test.views])
+    sample.label_windows_3b([(view["first_row"], view["last_row"]) for view in test.streaming_intervals_tcp])
 
     # Classify windows (STEP 3)
-    sample.classify_windows([(view["first_row"], view["last_row"]) for view in test.views])
+    sample.classify_windows([(view["first_row"], view["last_row"]) for view in test.streaming_intervals_tcp])
 
     return sample.stats
 
@@ -332,10 +332,10 @@ def run_tests_3a(delta, test: Experiment):
     sample.generate_windows()
 
     # Label windows (STEP 2)
-    sample.label_windows_3a([(view["first_row"], view["last_row"]) for view in test.views])
+    sample.label_windows_3a([(view["first_row"], view["last_row"]) for view in test.streaming_intervals_tcp])
 
     # Classify windows (STEP 3)
-    sample.classify_windows([(view["first_row"], view["last_row"]) for view in test.views])
+    sample.classify_windows([(view["first_row"], view["last_row"]) for view in test.streaming_intervals_tcp])
 
     return sample.stats
 

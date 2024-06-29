@@ -1,121 +1,10 @@
-from collections import defaultdict
+import io
 import os
 import re
 import pandas
 import math
-
-# Estat extensions and prefixes
-ESTAT_TCP_EXT = ".csv"
-ESTAT_TCP_PFX = "tcp_trace"
-
-ESTAT_UDP_EXT = ".csv"
-ESTAT_UDP_PFX = "udp_trace"
-
-# Tstat extensions and prefixes
-TSTAT_EXT = ".pcap.out"
-TSTAT_PFX = "wireshark_trace"
-
-# Wireshark extensions and prefixes
-WIRESHARK_PFX = "wireshark_trace"
-WIRESHARK_EXT = ".pcap"
-# Streambot extensions and prefixes
-STREAMBOT_EXT = ".csv"
-STREAMBOT_PFX = "streambot_trace"
-
-
-# Anything related to TCP
-TCP_L7_PROTOCOLS = {
-    0:      "UNKNOWN",
-    1:      "HTTP",
-    2:      "RTSP",
-    4:      "RTP",
-    8:      "ICY",
-    16:     "RTCP",
-    32:     "MSN",
-    64:     "YMSG",
-    128:    "XMPP",
-    256:    "P2P",
-    512:    "SKYPE",
-    1024:   "SMTP",
-    2048:   "POP3",
-    4096:   "IMAP4",
-    8192:   "TLS",
-    16384:  "ED2K",
-    32768:  "SSH",
-    65536:  "RTMP",
-    131072: "MSE/PE",
-}
-
-TSTAT_TCP_COLUMNS = {
-    "CL_IP": 0,     # CLIENT_IP
-    "SV_IP": 14,    # SERVER_IP
-    "CL_PR": 1,     # CLIENT_PORT
-    "SV_PR": 15,    # SERVER_PORT
-    "UP_BY": 8,     # UPLOADED_BYTES
-    "DW_BY": 22,    # DWLOADED_BYTES
-    "TS_FP": 28,    # TSTAMP_FIRST_PACKET
-    "TS_LP": 29,    # TSTAMP_LEAST_PACKET
-    "CN_CL": 115,   # CNAME_CLIENT_HELLO
-    "CN_SV": 116,   # CNAME_SERVER_HELLO
-    "CN_DQ": 126,   # CNAME_DNS_QUERY
-    "HT_HN": 130,   # HTTP_HOSTANAME
-    "PROTO": 41,    # PROTOCOL
-}
-
-# Anything related to UDP
-TSTAT_UDP_COLUMNS = {
-    "CL_IP": 0,     # CLIENT_IP
-    "SV_IP": 9,     # SERVER_IP
-    "CL_PR": 1,     # CLIENT_PORT
-    "SV_PR": 10,    # SERVER_PORT
-    "UP_BY": 4,     # UPLOADED_BYTES
-    "DW_BY": 13,    # DWLOADED_BYTES
-    "FP_CL": 2,     # FIRST_PACKET_CLIENT
-    "FP_SV": 11,    # FIRST_PACKET_SERVER
-    "CL_PT": 8,     # CLIENT_PROTOCOL
-    "SV_PT": 17,    # SERVER_PROTOCOL
-    "CN_DQ": 18,    # CNAME_DNS_QUERY
-}
-
-UDP_L7_PROTOCOLS = {
-
-    0:  "UNKNOWN",
-    1:  "FIRST_RTP",
-    2:  "FIRST_RTCP",
-    3:  "RTP",
-    4:  "RTCP",
-    5:  "SKYPE_E2E",
-    6:  "SKYPE_E2O",
-    7:  "SKYPE_SIG",
-    8:  "P2P_ED2K",
-    9:  "P2P_KAD",
-    10: "P2P_KADU",
-    11: "P2P_GNU",
-    12: "P2P_BT",
-    13: "P2P_DC",
-    14: "P2P_KAZAA",
-    15: "P2P_PPLIVE",
-    16: "P2P_SOPCAST",
-    17: "P2P_TVANTS",
-    18: "P2P_OKAD",
-    19: "DNS",
-    20: "P2P_UTP",
-    21: "P2P_UTPBT",
-    22: "UDP_VOD",
-    23: "P2P_PPSTREAM",
-    24: "TEREDO",
-    25: "UDP_SIP",
-    26: "UDP_DTLS",
-    27: "UDP_QUIC"
-
-}
-
-# Delimiters
-BOT_DEL = "\t"
-TST_DEL = " "
-
-# Binaries
-TSTAT_PATH = "/usr/local/bin/tstat"
+from   constants   import *
+from   collections import defaultdict
 
 class Experiment:
 
@@ -125,290 +14,280 @@ class Experiment:
         self.wireshark_trace_file: str = wireshark_trace_file
         self.streambot_trace_file: str = streambot_trace_file
 
-        # Ouput file (TCP log complete)
-        self.estat_tcp_complete_file:  str = None
-        self.estat_tcp_complete_frame: pandas.DataFrame = None
-
-        # Output file (UDP log complete)
-        self.estat_udp_complete_file:  str = None
-        self.estat_udp_complete_frame: pandas.DataFrame = None
-        
         # Input file (TCP log complete)
         self.tstat_tcp_complete_file: str = None
 
         # Input file (UDP log complete)
         self.tstat_udp_complete_file: str = None
-        
-        # Estat dataframe
+
+        # Input file (TCP log complete periodic)
+        self.tstat_log_periodic_file: str = None
+
+        # Ouput file (TCP log complete)
+        self.estat_tcp_complete_file:  str = None
         self.estat_tcp_complete_frame: pandas.DataFrame = None
-
-        # Views
-        self.views: list[object] = []
-
-
-    def __str__(self):
         
-        text = f"""Material:
-        Wireshark Trace = {self.wireshark_trace_file}
-        Streambot Trace = {self.streambot_trace_file}
-        """
-        return text
+        # Output file (TCP log complete periodic)
+        self.estat_tcp_log_periodic_file: str = None
+        self.estat_tcp_log_periodic_frame: pandas.DataFrame = None
 
+        # Output file (UDP log complete)
+        self.estat_udp_complete_file:  str = None
+        self.estat_udp_complete_frame: pandas.DataFrame = None
+        
+        # Streaming intervals (over TCP)
+        self.streaming_intervals_tcp: list[object] = []
+        # Streaming intervals (over UDP)
+        self.streaming_intervals_udp: list[object] = []
 
-    def tstat_wireshark_trace(self):
+    def run_tstat(self):
 
         # Compile Wireshark trace
-        os.system(f"{TSTAT_PATH} {self.wireshark_trace_file} > /dev/null")
+        runtime_conf_file_path = os.path.join(os.getcwd(), "runtime.conf")
+        os.system(f"{TSTAT_BINARY_PATH} -T {runtime_conf_file_path} {self.wireshark_trace_file} > /dev/null")
 
         # Generate the name of Tstat ouput directory
-        tstat_out_dir = self.wireshark_trace_file.replace(WIRESHARK_EXT, TSTAT_EXT)
+        tstat_dir = self.wireshark_trace_file.replace(WIRESHARK_EXT, TSTAT_EXT)
 
         # Loop overe all Tstat ouput
-        for dir in os.listdir(tstat_out_dir):
+        for dir in os.listdir(tstat_dir):
 
             # Generate the name of the current directory
-            dir_path = os.path.join(tstat_out_dir, dir)
+            dir_path = os.path.join(tstat_dir, dir)
 
-            # Loop over TXT documents
+            # Move all TXT files to the parent directory and remove the empty folder
             for log in os.listdir(dir_path):
+                os.rename(os.path.join(dir_path, log), os.path.join(tstat_dir, log))
 
-                # Move all TXT files into the parent directory
-                old_path = os.path.join(dir_path, log)
-                new_path = os.path.join(tstat_out_dir, log)
-                os.rename(old_path, new_path)
-            
-            # Remove the empty folder
+            # Remove the empty folder and stop here
             os.rmdir(dir_path)
-
-            # Stop here: do not process next following directories
             break
 
         # Get trace TCP log complete (input file)
-        self.tstat_tcp_complete_file = os.path.join(tstat_out_dir, "log_tcp_complete")
+        self.tstat_tcp_complete_file = os.path.join(tstat_dir, "log_tcp_complete")
 
-        # Get trace UDP log complete (input file)
-        self.tstat_udp_complete_file = os.path.join(tstat_out_dir, "log_udp_complete")
-
-        # Generate the frame and the file trace for TCP (output file)
+        # Define output files
         self.estat_tcp_complete_file = self.wireshark_trace_file.replace(WIRESHARK_EXT, ESTAT_TCP_EXT)
         self.estat_tcp_complete_file = self.estat_tcp_complete_file.replace(WIRESHARK_PFX, ESTAT_TCP_PFX)
         
         # Generate the frame associated to the TCP log complete
-        self.estat_tcp_complete_frame, self.streambot_trace_frame = estat_tcp_complete(
+        self.estat_tcp_complete_frame, self.streambot_trace_frame = estat_tcp_log_complete(
             self.tstat_tcp_complete_file,           # Tstat file (input file)
                 self.streambot_trace_file,          # Streambot file (input file)
                     self.estat_tcp_complete_file)   # Estat file (output file)
 
-        # Generate the frame and the file trace for UDP (output file)
+        # Get trace UDP log complete (input file)
+        self.tstat_udp_complete_file = os.path.join(tstat_dir, "log_udp_complete")
+
+        # Define output files
         self.estat_udp_complete_file = self.wireshark_trace_file.replace(WIRESHARK_EXT, ESTAT_UDP_EXT)
         self.estat_udp_complete_file = self.estat_udp_complete_file.replace(WIRESHARK_PFX, ESTAT_UDP_PFX)
 
         # Generate the frame associated to the UDP log complete
-        self.estat_udp_complete_frame = estat_udp_complete(
+        self.estat_udp_complete_frame = estat_udp_log_complete(
             self.tstat_udp_complete_file,           # Tstat file (input file)
                 self.streambot_trace_file,          # Streambot file (input file)
                     self.estat_udp_complete_file)   # Estat file (output file)
 
+        # Get trace TCP log periodic
+        self.tstat_log_periodic_file = os.path.join(tstat_dir, "log_periodic_complete")
+
+        # Define output files
+        self.estat_tcp_log_periodic_file = self.wireshark_trace_file.replace(WIRESHARK_EXT, ESTAT_TCP_LOG_PERIODIC_EXT)
+        self.estat_tcp_log_periodic_file = self.estat_tcp_log_periodic_file.replace(WIRESHARK_PFX, ESTAT_TCP_LOG_PERIODIC_PFX)
+
+        # Generate the frame associated to the TCP log periodic
+        self.estat_tcp_log_periodic_frame = estat_tcp_log_periodic(
+            self.tstat_log_periodic_file,           # Tstat file (input file)
+                self.streambot_trace_file,          # Streambot file (input file)
+                    self.estat_tcp_log_periodic_file)   # Estat file (output file)
+
         # Clean all Tstat outputs
-        logs = [os.path.join(tstat_out_dir, f) for f in os.listdir(tstat_out_dir)]
+        logs = [os.path.join(tstat_dir, f) for f in os.listdir(tstat_dir)]
         for log in logs:
             os.remove(log)
-        os.removedirs(tstat_out_dir)
+        os.removedirs(tstat_dir)
 
-
-    def filter_views(self, channels):
+    def get_streaming_intervals_over_tcp(self, channels):
         
-        # By combining an oracle (something that tells when something happens)
-        # and the Estat trace, we can filter TCP and (maybe UDP) flows during
-        # a multimedia stream
-
         # Remove anything from Streambot frame that is not a channel log
-        filtered_bot = self.streambot_trace_frame[self.streambot_trace_frame["EVENT"].str.contains("|".join(channels))]
+        bot_frame = self.streambot_trace_frame[self.streambot_trace_frame["EVENT"].str.contains("|".join(channels))]
 
         # Remove anything from Estat frame (TCP) in which the token is not available
-        filtered_tcp = self.estat_tcp_complete_frame[self.estat_tcp_complete_frame["TOKEN"] != "NONE"]
+        tcp_frame = self.estat_tcp_complete_frame[self.estat_tcp_complete_frame["TOKEN"] != "NONE"]
 
-        # Generate a list with all timestamps, the ones at which a view is started
-        # and stopped.
-        points = filtered_bot["FROM_ORIGIN_MS"].tolist()
+        # Generate the list of all events associated to a streaming interval
+        instants = bot_frame["FROM_ORIGIN_MS"].tolist()
 
         # Loop over points, by coupling ts (time start) and te (time end)
-        for ts, te in zip(points[::2], points[1::2]):
+        for ts, te in zip(instants[::2], instants[1::2]):
             
-            # Isolate the window in which each flows has been started
-            # after ts and before te
-            window = filtered_tcp[(filtered_tcp["TS_FP"] >= ts) & (filtered_tcp["TS_FP"] <= te)]
+            key = "TIME_ABS_START"
+
+            # Create a slice of the TCP frame with all flows that has been started
+            # within the time period Streambot confirms to be a streaming interval
+            interval = tcp_frame[(tcp_frame[key] >= ts) & (tcp_frame[key] <= te)]
 
             # Add to views list, the previous one (if not empty)
-            if len(window) > 0:
+            if len(interval) <= 0:
+                continue
 
-                # Generate an object with some highlights
-                view = {
-                    "started":    window["DT_FP"].min(),        # Save the timestamp of flows that has started as first        
-                    "finished":   window["DT_FP"].max(),        # Save the timestamp of flows that has finished as last
-                    "first_row":  window["DT_FP"].idxmin(),     # Save the index of flow that has started as first
-                    "last_row":   window["DT_FP"].idxmax(),     # Save the index of flow that has finished as last
-                    "window":     window,                       # Save the dataframe
-                    "tokens":     window["TOKEN"].tolist()      # Save the list of tokens associated to all flows
-                }
+            # Generate a new object that is a view
+            view = {}
 
-                # Add this view to the list of views
-                self.views.append(view)
+            # Add basic information
+            view["time_s"] = interval["TIME_ABS_START"].min()
+            view["time_e"] = interval["TIME_ABS_START"].max()
+            view["idex_s"] = interval["TIME_ABS_START"].idxmin()
+            view["idex_e"] = interval["TIME_ABS_START"].idxmax()
+            view["dframe"] = interval
+            view["tokens"] = interval["TOKEN"].tolist() if "TOKEN" in interval.columns else []
+            view["lstats"] = {}
+
+            # Add advanced information
+            keys = ["CLIENT_IP_ADDRESS", "SERVER_IP_ADDRESS", "CLIENT_L4_PORT", "SERVER_L4_PORT"]
+
+            # Loop over all rows in this interval
+            for index, row in interval.loc[:, keys].iterrows():
+                
+                # Isolate socket addresses by creating a tuple key
+                socket_key = (row["CLIENT_IP_ADDRESS"], row["SERVER_IP_ADDRESS"], row["CLIENT_L4_PORT"], row["SERVER_L4_PORT"])
+
+                # Select all rows that have to do with the same key
+                matching_rows = self.estat_tcp_log_periodic_frame.loc[
+                    (self.estat_tcp_log_periodic_frame["CLIENT_IP_ADDRESS"] == socket_key[0]) & # Filter by IP address (client)
+                    (self.estat_tcp_log_periodic_frame["SERVER_IP_ADDRESS"] == socket_key[1]) & # Filter by IP address (server)
+                    (self.estat_tcp_log_periodic_frame["CLIENT_L4_PORT"]    == socket_key[2]) & # Filter by L4 port (client)
+                    (self.estat_tcp_log_periodic_frame["SERVER_L4_PORT"]    == socket_key[3])   # Filter by L4 port (server)
+                ]
+
+                # Associate the filtered DataFrame with the corresponding key in the view["lstats"] dictionary
+                view["lstats"][socket_key] = matching_rows
+
+            # Backup all streaming intervals
+            self.streaming_intervals_tcp.append(view)
+
+
 
 def tokenizer(record):
     
     token = ""
-    proto = "PROTO"
+    proto = "PROTOCOL"
 
-    # Determine the cname based on the protocol
     if proto in record:
+
         if record[proto] == "TLS":
-            if "CN_CL" in record and record["CN_CL"] != "-":
-                token = record["CN_CL"]
+            if "SERVER_CNAME_CLIENT_HELLO" in record and record["SERVER_CNAME_CLIENT_HELLO"] != "-":
+                token = record["SERVER_CNAME_CLIENT_HELLO"]
         elif record[proto] == "HTTP":
-            if "HT_HN" in record and record["HT_HN"] != "-":
-                token = record["HT_HN"]
+            if "SERVER_CNAME_HTTP_HOSTNAME" in record and record["SERVER_CNAME_HTTP_HOSTNAME"] != "-":
+                token = record["SERVER_CNAME_HTTP_HOSTNAME"]
 
-    # If cname is still empty, check CN_DQ
     if token == "":
-        if "CN_DQ" in record and record["CN_DQ"] != "-":
-            token = record["CN_DQ"]
+        if "SERVER_CNAME_DNS_QUERY" in record and record["SERVER_CNAME_DNS_QUERY"] != "-":
+            token = record["SERVER_CNAME_DNS_QUERY"]
 
-    # If cname is still empty, set to "NONE"
     if token == "":
         token = "NONE"
 
-    # Replace hyphens with dots
     token = token.replace("-", ".")
-    
-    # Split the domain into parts
-    domains = token.split(".")
+    names = token.split(".")
 
-    # Check if the domain has at least three parts
-    if len(domains) >= 3:
-        # Join the third last and second last elements, ignoring the TLD
-        token = ".".join(domains[-3:-1])
-    else:
-        # If the domain has fewer than three parts, join all parts
-        token = ".".join(domains)
-
-    # Replace numbers with #
+    token = ".".join(names[-3:-1]) if len(names) >= 3 else ".".join(names)
     token = re.sub(r"\d+", "#", token)
 
     return token
 
+def l7_protocol_over_tcp(record):
 
-def associate_l7_protocol_to_tcp_connection(record):
-
-    name = record["PROTO"]
-    name = TCP_L7_PROTOCOLS[name]
-
-    return "NONE" if name == None else name
-
-def associate_l7_protocol_to_udp_connection_client(record):
-
-    name = record["CL_PT"]
-    name = UDP_L7_PROTOCOLS[name]
+    name = record["PROTOCOL"]
+    name = ESTAT_L7_PROTOCOL_TCP[name]
 
     return "NONE" if name == None else name
 
-def associate_l7_protocol_to_udp_connection_server(record):
-
-    name = record["SV_PT"]
-    name = UDP_L7_PROTOCOLS[name]
-
-    return "NONE" if name == None else name
-
-def estat_udp_complete(tstat_udp_complete_file, streambot_trace_file, estat_udp_complete_file):
+def estat_tcp_log_periodic(tstat_log_periodic_file: str, streambot_trace_file: str, estat_tcp_log_periodic_file: str):
 
     # Generate a frame from Streambot trace
-    bot_frame : pandas.DataFrame = pandas.read_csv(streambot_trace_file, delimiter=BOT_DEL)
+    bot_frame : pandas.DataFrame = pandas.read_csv(streambot_trace_file, delimiter=STREAMBOT_TRACE_COLUMNS_DELIMITER)
 
     # Generate a frame from Estat UDP trace
-    udp_frame : pandas.DataFrame = pandas.read_csv(tstat_udp_complete_file, delimiter=TST_DEL)
+    log_frame : pandas.DataFrame = pandas.read_csv(tstat_log_periodic_file, delimiter=TSTAT_TRACE_COLUMNS_DELIMITER)
 
-    # Generate a frame in which just few columns are used,
-    # so you select just a slice of the original frame columns
-    values  = list(TSTAT_UDP_COLUMNS.values())
-    columns = list(TSTAT_UDP_COLUMNS.keys())
+    # Generate the values and the key by which selecting just relevant
+    # features
+    values  = list(ESTAT_TCP_LOG_PERIODIC_SUMMARY_COLUMNS.values())
+    columns = list(ESTAT_TCP_LOG_PERIODIC_SUMMARY_COLUMNS.keys())
 
-    udp_frame = udp_frame.iloc[:, values]
-    udp_frame.columns = columns
+    # Filter the frame by selecting just relevant features
+    log_frame = log_frame.iloc[:, values]
+    log_frame.columns = columns
 
-    # Make the origin in the Streambot frame the origin for all flows
-    # in the UDP summary frame
-    origin = bot_frame.loc[0, "UNIX_TS"]
-    # Apply subtraction to FP_CL only if its value is not 0
-    udp_frame.loc[udp_frame["FP_CL"] != 0, "FP_CL"] -= float(origin)
+    ts = "TIME_ABS_START"
 
-    # Apply subtraction to FP_SV only if its value is not 0
-    udp_frame.loc[udp_frame["FP_SV"] != 0, "FP_SV"] -= float(origin)
-
-    # Generate a human readable protocol value
-    udp_frame["CL_PT"] = udp_frame.apply(associate_l7_protocol_to_udp_connection_client, axis=1)
-    udp_frame["SV_PT"] = udp_frame.apply(associate_l7_protocol_to_udp_connection_server, axis=1)
-
-    # Generate the token
-    udp_frame["TOKEN"] = udp_frame.apply(tokenizer, axis=1)
-
-    # Sort Estat dataframe by date of first packet
-    udp_frame.sort_values(by="FP_CL", inplace=True)
-    udp_frame.reset_index(drop=True, inplace=True)
-    udp_frame.index += 1
+    # For each row, allign the time to the origin of Streambot trace
+    log_frame.loc[log_frame[ts] != 0, ts] -= float(bot_frame.loc[0, "UNIX_TS"])
 
     # Write the result on disk
-    udp_frame.to_csv(estat_udp_complete_file, sep=TST_DEL, index=False, header=True)
+    log_frame.to_csv(estat_tcp_log_periodic_file, sep=TSTAT_TRACE_COLUMNS_DELIMITER, index=False, header=True)
 
     # Return the frame
-    return udp_frame
+    return log_frame
 
-def estat_tcp_complete(tstat_tcp_complete_file, streambot_trace_file, estat_tcp_complete_file):
+def estat_tcp_log_complete(tstat_tcp_complete_file: str, streambot_trace_file: str, estat_tcp_complete_file: str):
 
     # Generate a frame from Streambot trace
-    bot_frame : pandas.DataFrame = pandas.read_csv(streambot_trace_file, delimiter=BOT_DEL)
+    bot_frame : pandas.DataFrame = pandas.read_csv(streambot_trace_file, delimiter=STREAMBOT_TRACE_COLUMNS_DELIMITER)
 
-    # Generate a frame from Estat TCP trace
-    tcp_frame : pandas.DataFrame = pandas.read_csv(tstat_tcp_complete_file, delimiter=TST_DEL)
+    # Generate a frame from Estat UDP trace
+    tcp_frame : pandas.DataFrame = pandas.read_csv(tstat_tcp_complete_file, delimiter=TSTAT_TRACE_COLUMNS_DELIMITER)
 
-    # Generate a frame in which just few columns are used,
-    # so you select just a slice of the original frame columns
-    values  = list(TSTAT_TCP_COLUMNS.values())
-    columns = list(TSTAT_TCP_COLUMNS.keys())
+    # Generate the values and the key by which selecting just relevant
+    # features
+    values  = list(ESTAT_TCP_SUMMARY_COLUMNS.values())
+    columns = list(ESTAT_TCP_SUMMARY_COLUMNS.keys())
 
+    # Filter the frame by selecting just relevant features
     tcp_frame = tcp_frame.iloc[:, values]
     tcp_frame.columns = columns
 
-    # Make the origin in the Streambot frame the origin for all flows
-    # in the TCP summary frame
-    origin = bot_frame.loc[0, "UNIX_TS"]
-    tcp_frame["TS_FP"] -= float(origin)
-    tcp_frame["TS_LP"] -= float(origin)
+    tstamp_s = "TIME_ABS_START"
+    tstamp_e = "TIME_ABS_END"
 
-    # Generate date format in Estat dataframe
-    tcp_frame["DT_FP"] = pandas.to_datetime(tcp_frame["TS_FP"], unit="ms", origin="unix")
-    tcp_frame["DT_LP"] = pandas.to_datetime(tcp_frame["TS_LP"], unit="ms", origin="unix")
+    # For each row, allign the time to the origin of Streambot trace
+    tcp_frame.loc[tcp_frame[tstamp_s] != 0, tstamp_s] -= float(bot_frame.loc[0, "UNIX_TS"])
+    tcp_frame.loc[tcp_frame[tstamp_e] != 0, tstamp_e] -= float(bot_frame.loc[0, "UNIX_TS"])
 
-    # Generate a human readable protocol value
-    tcp_frame["PROTO"] = tcp_frame.apply(associate_l7_protocol_to_tcp_connection, axis=1)
+    # Generate a human readable version of protocol
+    tcp_frame["PROTOCOL"] = tcp_frame.apply(l7_protocol_over_tcp, axis=1)
+
+    datetime_s = "DATE_TIME_ABS_START"
+    datetime_e = "DATE_TIME_ABS_END"
+
+    # Generate a datetime format for the timestamps
+    tcp_frame[datetime_s] = pandas.to_datetime(tcp_frame[tstamp_s])
+    tcp_frame[datetime_e] = pandas.to_datetime(tcp_frame[tstamp_s])
 
     # Generate the token
     tcp_frame["TOKEN"] = tcp_frame.apply(tokenizer, axis=1)
 
     # Sort Estat dataframe by date of first packet
-    tcp_frame.sort_values(by="TS_FP", inplace=True)
+    tcp_frame.sort_values(by=tstamp_s, inplace=True)
     tcp_frame.reset_index(drop=True, inplace=True)
     tcp_frame.index += 1
 
     # Write the result on disk
-    tcp_frame.to_csv(estat_tcp_complete_file, sep=TST_DEL, index=False, header=True)
+    tcp_frame.to_csv(estat_tcp_complete_file, sep=TSTAT_TRACE_COLUMNS_DELIMITER, index=False, header=True)
 
     # Return the frame
     return tcp_frame, bot_frame
 
-def compute_profile(experiments: list[Experiment], output: str):
+def estat_udp_log_complete(tstat_udp_complete_file: str, streambot_trace_file: str, estat_udp_complete_file: str):
+    return
+
+def tokens_profile(experiments: list[Experiment], output: str):
 
     # Extract all views from the experiments
-    views = [view for experiment in experiments for view in experiment.views]
+    views = [view for experiment in experiments for view in experiment.streaming_intervals_tcp]
 
     # Count occurrences of tokens (Term Frequency - TF)
     token_counts = defaultdict(int)
@@ -447,100 +326,76 @@ def compute_profile(experiments: list[Experiment], output: str):
             #f.write(f"{tf_idf:.4f}\t{tf:.4f}\t{token}\n")
             f.write(f"{tf:.4f}\t{token}\n")
 
-def fetch_traces(root: str):
+def fetch_file_to_process(root: str) -> list[tuple[str, str]]:
 
-    wireshark_ext = ".pcap"
-    streambot_ext = ".csv"
-
-    wireshark_pfx = "wireshark_trace"
-    streambot_pfx = "streambot_trace"
-
+    # List all files in the root directory
     files: list[str] = [os.path.join(root, f) for f in os.listdir(root)]
 
-    # Get all Wireshark traces
-    wireshark_traces_path: list[str] = [f for f in files 
-        if os.path.basename(f).endswith(wireshark_ext) and os.path.basename(f).startswith(wireshark_pfx)
-    ]
+    # Filter Wireshark trace files
+    wireshark_traces_path: list[str] = [f for f in files if os.path.isfile(f) and f.endswith(WIRESHARK_EXT) and f.startswith(os.path.join(root, WIRESHARK_PFX))]
 
-    # Get all Streambot traces
-    streambot_traces_path: list[str] = [f for f in files
-        if os.path.basename(f).endswith(streambot_ext) and os.path.basename(f).startswith(streambot_pfx)
-    ]
+    # Filter Streambot trace files
+    streambot_traces_path: list[str] = [f for f in files if os.path.isfile(f) and f.endswith(STREAMBOT_EXT) and f.startswith(os.path.join(root, STREAMBOT_PFX))]
 
-    # Return the result
-    return zip(sorted(wireshark_traces_path), sorted(streambot_traces_path))
+    # Sort and zip Wireshark and Streambot traces
+    return list(zip(sorted(wireshark_traces_path), sorted(streambot_traces_path)))
 
-def process_experiments(platform: str, channels: list[str]):
+def process_experiments(platform: str | None, channels: list[str]) -> list[Experiment] | None:
 
-    # Define a list of Samples
-    experiments : list[Experiment] = []
+    # Define a list of Experiment objects
+    experiments: list[Experiment] = []
 
-    # If a platform is specified, use "supervised" as database
-    if platform:
-        root = os.path.join(os.getcwd(), "supervised_experiments", platform)
-    else:
-        root = os.path.join(os.getcwd(), "unsupervised_experiments")
-
-    files = fetch_traces(root)
+    # Determine if generatin supervised or unsupervised experiments
+    fold = f"supervised_experiments/{platform}" if platform else "unsupervised_experiments"
     
-    print(f"Processing experiments for platform: {platform}")
+    # Generate the current working directory
+    root = os.path.join(os.getcwd(), fold)
 
-    # Generate SupervisedSample objects
+    # Fetch files to process
+    files = fetch_file_to_process(root)
+    
+    # Create Experiment objects and add them to the list
     for wireshark_trace_file, streambot_trace_file in files:
         experiments.append(Experiment(wireshark_trace_file, streambot_trace_file))
 
     # Compile and process all experiments
     for experiment in experiments:
-        experiment.tstat_wireshark_trace()
-        experiment.filter_views(channels)
+        experiment.run_tstat()
+        experiment.get_streaming_intervals_over_tcp(channels)
 
-    print(f"Finished compiling and processing experiments for {platform}")
-    
-    # If a platform is not specified, return the list of experiments
+    # Return the list of experiments if no platform is specified
     if platform is None:
         return experiments
 
-    # If a platform is specified, save each experiment on disk
+    # Save experiments on disk if a platform is specified
     save_experiments_on_disk(experiments, platform)
 
-    # Generate the profile for that platform
+    # Generate the profile for the specified platform
     define_platform_profile(experiments, platform)
-
+    
+    return None
 
 def save_experiments_on_disk(experiments: list[Experiment], platform: str):
 
-    numb = 0
     root = os.path.join(os.getcwd(), f"streaming_intervals_{platform}")
 
-    # If the output directory does not exist, create it. If it already exists,
-    # cleanup all files in the directory
-
+    # Create or clean up the output directory
     if os.path.exists(root):
-
-        # Remove all files in the output directory
         for f in os.listdir(root):
             os.remove(os.path.join(root, f))
-
     else:
         os.mkdir(root)
 
-    print(f"Saving samples for platform: {platform}")
+    # Iterate over each experiment and save its data
+    for i, experiment in enumerate(experiments):
 
-    for experiment in experiments:
-
-        # Get the registered views for this experiment
-        for view in experiment.views:
-            
-            path = os.path.join(root, f"sample-{numb}.dat")
+        for view in experiment.streaming_intervals_tcp:
+            path = os.path.join(root, f"sample-{i}.dat")
             with open(path, "w") as f:
 
-                # Loop over all tokens registered in the view
+                # Write each token in the view to the file
                 for token in view["tokens"]:
                     f.write(f"{token}\n")
-            numb += 1
-
-    print(f"Finished saving samples for {platform}")
-
 
 def define_platform_profile(experiments: list[Experiment], platform: str):
 
@@ -549,7 +404,5 @@ def define_platform_profile(experiments: list[Experiment], platform: str):
         os.remove(profile)
 
     print(f"Computing {platform} profile...")
-
-    compute_profile(experiments, profile)
-    
+    tokens_profile(experiments, profile)
     print(f"Finished computing {platform} profile. Profile saved to {profile}")

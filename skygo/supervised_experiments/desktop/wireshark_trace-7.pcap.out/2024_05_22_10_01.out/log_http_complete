@@ -1,0 +1,58 @@
+#C#c_ip:1	c_port:2	s_ip:3	s_port:4	time_abs:5	method:6	hostname:7	fqdn:8	path:9	referer:10	user_agent:11	cookie:12	dnt:13
+#S#c_ip:1	c_port:2	s_ip:3	s_port:4	time_abs:5	HTTP:6	response:7	content_len:8	content_type:9	server:10	range:11	location:12	set_cookie:13
+192.168.166.55	52939	185.26.140.126	443	1716368490.077953	POST	-	pskyq-drm-sgw.skycdn.it	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	52939	185.26.140.126	443	1716368490.134256	HTTP	200	-	-	-	-	-	-
+192.168.166.55	52939	185.26.140.126	443	1716368490.134256	RES2	-	239	-	-	-	-	-
+192.168.166.55	52939	185.26.140.126	443	1716368490.138597	POST	-	pskyq-drm-sgw.skycdn.it	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	52939	185.26.140.126	443	1716368490.138597	REQ2	pskyq-drm-sgw.skycdn.it:443	pskyq-drm-sgw.skycdn.it	-	-	I_con	-	-
+192.168.166.55	52939	185.26.140.126	443	1716368490.174319	HTTP	200	312	application/octet-stream	-	-	-	-
+192.168.166.55	52968	52.16.115.188	80	1716368496.374149	GET	dpm.demdex.net	dpm.demdex.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52968	52.16.115.188	80	1716368496.474930	HTTP	200	744	application/json;charset=utf-8	-	-	-	-
+192.168.166.55	52969	92.123.101.240	80	1716368496.814044	GET	fast.bskyb.demdex.net	fast.bskyb.demdex.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52969	92.123.101.240	80	1716368496.898654	HTTP	200	2785	text/html	AkamaiNetStorage	-	-	-
+192.168.166.55	52971	3.67.59.237	80	1716368497.287374	GET	pm.w55c.net	pm.w55c.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52971	3.67.59.237	80	1716368497.361855	HTTP	302	0	-	PingMatch/v2.0.30-803-g63cf649#rel-ec2-master i-0d9f35a2b2857bf82@eu-central-1a@dxedge-app-eu-central-1-prod-asg	-	https://pm.w55c.net/	-
+192.168.166.55	52975	3.122.214.165	80	1716368497.362562	GET	ps.eyeota.net	ps.eyeota.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52976	3.144.50.151	80	1716368497.367011	GET	dmp.v.fwmrm.net	dmp.v.fwmrm.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52975	3.122.214.165	80	1716368497.455701	HTTP	302	-	-	-	-	https://ps.eyeota.net/	-
+192.168.166.55	52976	3.144.50.151	80	1716368497.609952	HTTP	302	0	text/html	-	-	http://dpm.demdex.net/	-
+192.168.166.55	52968	52.16.115.188	80	1716368497.614371	GET	dpm.demdex.net	dpm.demdex.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52968	52.16.115.188	80	1716368497.689951	HTTP	200	59	image/gif	-	-	-	-
+192.168.166.55	52983	3.69.181.164	80	1716368511.956342	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52983	3.69.181.164	80	1716368512.065791	HTTP	200	417	text/xml	-	-	-	-
+192.168.166.55	52998	176.255.176.100	443	1716368512.364948	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	52998	176.255.176.100	443	1716368512.364948	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.166.55	52998	176.255.176.100	443	1716368512.501569	HTTP	200	623	application/octet-stream	-	-	-	-
+192.168.166.55	52998	176.255.176.100	443	1716368512.502846	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	52998	176.255.176.100	443	1716368512.502846	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.166.55	52998	176.255.176.100	443	1716368512.567468	HTTP	200	2813	application/octet-stream	-	-	-	-
+192.168.166.55	52983	3.69.181.164	80	1716368580.235019	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52983	3.69.181.164	80	1716368580.321590	HTTP	200	417	text/xml	-	-	-	-
+192.168.166.55	53023	176.255.176.100	443	1716368580.458201	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	53023	176.255.176.100	443	1716368580.458201	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.166.55	53023	176.255.176.100	443	1716368580.546368	HTTP	200	2813	application/octet-stream	-	-	-	-
+192.168.166.55	52983	3.69.181.164	80	1716368653.156752	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52983	3.69.181.164	80	1716368653.238287	HTTP	200	417	text/xml	-	-	-	-
+192.168.166.55	53048	176.255.176.100	443	1716368653.392065	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	53048	176.255.176.100	443	1716368653.392065	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.166.55	53048	176.255.176.100	443	1716368653.459943	HTTP	200	2813	application/octet-stream	-	-	-	-
+192.168.166.55	52983	3.69.181.164	80	1716368726.269839	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52983	3.69.181.164	80	1716368726.377615	HTTP	200	416	text/xml	-	-	-	-
+192.168.166.55	53077	176.255.176.100	443	1716368726.551402	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	53077	176.255.176.100	443	1716368726.551402	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.166.55	53077	176.255.176.100	443	1716368726.662109	HTTP	200	2816	application/octet-stream	-	-	-	-
+192.168.166.55	52983	3.69.181.164	80	1716368799.312625	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52983	3.69.181.164	80	1716368799.457107	HTTP	200	416	text/xml	-	-	-	-
+192.168.166.55	53101	176.255.176.100	443	1716368799.584129	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	53101	176.255.176.100	443	1716368799.584129	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.166.55	53101	176.255.176.100	443	1716368799.684153	HTTP	200	2816	application/octet-stream	-	-	-	-
+192.168.166.55	52983	3.69.181.164	80	1716368872.255167	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52983	3.69.181.164	80	1716368872.343817	HTTP	200	417	text/xml	-	-	-	-
+192.168.166.55	53125	176.255.176.100	443	1716368872.492163	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	53125	176.255.176.100	443	1716368872.492163	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.166.55	53125	176.255.176.100	443	1716368872.576683	HTTP	200	2816	application/octet-stream	-	-	-	-
+192.168.166.55	52983	3.69.181.164	80	1716368945.269801	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52983	3.69.181.164	80	1716368945.365480	HTTP	200	417	text/xml	-	-	-	-
+192.168.166.55	53149	176.255.176.100	443	1716368945.501211	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	53149	176.255.176.100	443	1716368945.501211	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.166.55	53149	176.255.176.100	443	1716368945.602078	HTTP	200	2813	application/octet-stream	-	-	-	-

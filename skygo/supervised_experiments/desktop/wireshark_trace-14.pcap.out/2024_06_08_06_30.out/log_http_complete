@@ -1,0 +1,68 @@
+#C#c_ip:1	c_port:2	s_ip:3	s_port:4	time_abs:5	method:6	hostname:7	fqdn:8	path:9	referer:10	user_agent:11	cookie:12	dnt:13
+#S#c_ip:1	c_port:2	s_ip:3	s_port:4	time_abs:5	HTTP:6	response:7	content_len:8	content_type:9	server:10	range:11	location:12	set_cookie:13
+192.168.75.55	50775	185.26.140.126	443	1717824625.407646	POST	-	pskyq-drm-sgw.skycdn.it	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50775	185.26.140.126	443	1717824625.703090	HTTP	200	-	-	-	-	-	-
+192.168.75.55	50775	185.26.140.126	443	1717824625.703090	RES2	-	239	-	-	-	-	-
+192.168.75.55	50775	185.26.140.126	443	1717824625.709288	POST	-	pskyq-drm-sgw.skycdn.it	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50775	185.26.140.126	443	1717824625.709288	REQ2	pskyq-drm-sgw.skycdn.it:443	pskyq-drm-sgw.skycdn.it	-	-	I_con	-	-
+192.168.75.55	50775	185.26.140.126	443	1717824625.805177	HTTP	200	312	application/octet-stream	-	-	-	-
+192.168.75.55	50807	3.69.181.182	80	1717824654.434774	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50807	3.69.181.182	80	1717824654.601009	HTTP	200	417	text/xml	-	-	-	-
+192.168.75.55	50823	176.255.176.100	443	1717824655.296630	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50823	176.255.176.100	443	1717824655.296630	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	50823	176.255.176.100	443	1717824656.115691	HTTP	200	623	application/octet-stream	-	-	-	-
+192.168.75.55	50823	176.255.176.100	443	1717824656.129882	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50823	176.255.176.100	443	1717824656.129882	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	50823	176.255.176.100	443	1717824656.218477	HTTP	200	2810	application/octet-stream	-	-	-	-
+192.168.75.55	50839	92.123.101.112	80	1717824691.556130	GET	msedge.f.dl.delivery.mp.microsoft.com	msedge.f.dl.delivery.mp.microsoft.com	-	-	Microsoft-Delivery-Optimization/10.0	-	-
+192.168.75.55	50839	92.123.101.112	80	1717824691.580524	HTTP	200	622	application/octet-stream	ECAcc (mil/6C71)	-	-	-
+192.168.75.55	50841	92.123.101.96	80	1717824691.690125	GET	msedge.b.tlu.dl.delivery.mp.microsoft.com	msedge.b.tlu.dl.delivery.mp.microsoft.com	-	-	Microsoft-Delivery-Optimization/10.0	-	-
+192.168.75.55	50840	92.123.101.147	80	1717824691.690125	GET	msedge.b.tlu.dl.delivery.mp.microsoft.com	msedge.b.tlu.dl.delivery.mp.microsoft.com	-	-	Microsoft-Delivery-Optimization/10.0	-	-
+192.168.75.55	50841	92.123.101.96	80	1717824691.755312	HTTP	206	2	application/octet-stream	ECAcc (sac/2547)	bytes 0-1/9668672	-	-
+192.168.75.55	50841	92.123.101.96	80	1717824691.756297	GET	msedge.b.tlu.dl.delivery.mp.microsoft.com	msedge.b.tlu.dl.delivery.mp.microsoft.com	-	-	Microsoft-Delivery-Optimization/10.0	-	-
+192.168.75.55	50840	92.123.101.147	80	1717824691.768720	HTTP	206	2	application/octet-stream	ECAcc (sac/2547)	bytes 0-1/9668672	-	-
+192.168.75.55	50840	92.123.101.147	80	1717824691.769486	GET	msedge.b.tlu.dl.delivery.mp.microsoft.com	msedge.b.tlu.dl.delivery.mp.microsoft.com	-	-	Microsoft-Delivery-Optimization/10.0	-	-
+192.168.75.55	50841	92.123.101.96	80	1717824691.813378	HTTP	206	1048576	application/octet-stream	ECAcc (sac/2547)	bytes 5242880-6291455/9668672	-	-
+192.168.75.55	50840	92.123.101.147	80	1717824691.813378	HTTP	206	1048576	application/octet-stream	ECAcc (sac/2547)	bytes 1048576-2097151/9668672	-	-
+192.168.75.55	50840	92.123.101.147	80	1717824692.735918	GET	msedge.b.tlu.dl.delivery.mp.microsoft.com	msedge.b.tlu.dl.delivery.mp.microsoft.com	-	-	Microsoft-Delivery-Optimization/10.0	-	-
+192.168.75.55	50840	92.123.101.147	80	1717824692.773786	HTTP	206	1048576	application/octet-stream	ECAcc (sac/2547)	bytes 2097152-3145727/9668672	-	-
+192.168.75.55	50841	92.123.101.96	80	1717824693.391769	GET	msedge.b.tlu.dl.delivery.mp.microsoft.com	msedge.b.tlu.dl.delivery.mp.microsoft.com	-	-	Microsoft-Delivery-Optimization/10.0	-	-
+192.168.75.55	50841	92.123.101.96	80	1717824693.495344	HTTP	206	231488	application/octet-stream	ECAcc (sac/2547)	bytes 9437184-9668671/9668672	-	-
+192.168.75.55	50840	92.123.101.147	80	1717824693.495860	GET	msedge.b.tlu.dl.delivery.mp.microsoft.com	msedge.b.tlu.dl.delivery.mp.microsoft.com	-	-	Microsoft-Delivery-Optimization/10.0	-	-
+192.168.75.55	50840	92.123.101.147	80	1717824693.546007	HTTP	206	1048576	application/octet-stream	ECAcc (sac/2547)	bytes 6291456-7340031/9668672	-	-
+192.168.75.55	50841	92.123.101.96	80	1717824693.661201	GET	msedge.b.tlu.dl.delivery.mp.microsoft.com	msedge.b.tlu.dl.delivery.mp.microsoft.com	-	-	Microsoft-Delivery-Optimization/10.0	-	-
+192.168.75.55	50841	92.123.101.96	80	1717824693.739631	HTTP	206	1048576	application/octet-stream	ECAcc (sac/2547)	bytes 3145728-4194303/9668672	-	-
+192.168.75.55	50840	92.123.101.147	80	1717824694.273114	GET	msedge.b.tlu.dl.delivery.mp.microsoft.com	msedge.b.tlu.dl.delivery.mp.microsoft.com	-	-	Microsoft-Delivery-Optimization/10.0	-	-
+192.168.75.55	50840	92.123.101.147	80	1717824694.395652	HTTP	206	1048576	application/octet-stream	ECAcc (sac/2547)	bytes 7340032-8388607/9668672	-	-
+192.168.75.55	50841	92.123.101.96	80	1717824694.777918	GET	msedge.b.tlu.dl.delivery.mp.microsoft.com	msedge.b.tlu.dl.delivery.mp.microsoft.com	-	-	Microsoft-Delivery-Optimization/10.0	-	-
+192.168.75.55	50841	92.123.101.96	80	1717824695.037253	HTTP	206	1048576	application/octet-stream	ECAcc (sac/2547)	bytes 8388608-9437183/9668672	-	-
+192.168.75.55	50840	92.123.101.147	80	1717824695.222926	GET	msedge.b.tlu.dl.delivery.mp.microsoft.com	msedge.b.tlu.dl.delivery.mp.microsoft.com	-	-	Microsoft-Delivery-Optimization/10.0	-	-
+192.168.75.55	50840	92.123.101.147	80	1717824695.432115	HTTP	206	1048576	application/octet-stream	ECAcc (sac/2547)	bytes 0-1048575/9668672	-	-
+192.168.75.55	50841	92.123.101.96	80	1717824695.984859	GET	msedge.b.tlu.dl.delivery.mp.microsoft.com	msedge.b.tlu.dl.delivery.mp.microsoft.com	-	-	Microsoft-Delivery-Optimization/10.0	-	-
+192.168.75.55	50841	92.123.101.96	80	1717824696.267892	HTTP	206	1048576	application/octet-stream	ECAcc (sac/2547)	bytes 4194304-5242879/9668672	-	-
+192.168.75.55	50807	3.69.181.182	80	1717824727.669676	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50807	3.69.181.182	80	1717824727.747507	HTTP	200	417	text/xml	-	-	-	-
+192.168.75.55	50859	176.255.176.100	443	1717824727.930240	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50859	176.255.176.100	443	1717824727.930240	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	50859	176.255.176.100	443	1717824728.104623	HTTP	200	2813	application/octet-stream	-	-	-	-
+192.168.75.55	50807	3.69.181.182	80	1717824801.990263	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50807	3.69.181.182	80	1717824802.138274	HTTP	200	417	text/xml	-	-	-	-
+192.168.75.55	50807	3.69.181.182	80	1717824802.213222	HTTP	200	417	text/xml	-	-	-	-
+192.168.75.55	50887	176.255.176.100	443	1717824802.325484	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50887	176.255.176.100	443	1717824802.325484	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	50887	176.255.176.100	443	1717824802.420001	HTTP	200	2810	application/octet-stream	-	-	-	-
+192.168.75.55	50807	3.69.181.182	80	1717824876.113864	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50807	3.69.181.182	80	1717824876.275433	HTTP	200	418	text/xml	-	-	-	-
+192.168.75.55	50913	176.255.176.100	443	1717824876.480858	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50913	176.255.176.100	443	1717824876.480858	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	50913	176.255.176.100	443	1717824876.684965	HTTP	200	2813	application/octet-stream	-	-	-	-
+192.168.75.55	50807	3.69.181.182	80	1717824950.535826	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50807	3.69.181.182	80	1717824950.637232	HTTP	200	417	text/xml	-	-	-	-
+192.168.75.55	50937	176.255.176.100	443	1717824950.824798	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50937	176.255.176.100	443	1717824950.824798	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	50937	176.255.176.100	443	1717824951.027448	HTTP	200	2813	application/octet-stream	-	-	-	-
+192.168.75.55	50807	3.69.181.182	80	1717825024.689666	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50807	3.69.181.182	80	1717825024.858384	HTTP	200	417	text/xml	-	-	-	-
+192.168.75.55	50960	176.255.176.100	443	1717825025.024758	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50960	176.255.176.100	443	1717825025.024758	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	50960	176.255.176.100	443	1717825025.104644	HTTP	200	2813	application/octet-stream	-	-	-	-

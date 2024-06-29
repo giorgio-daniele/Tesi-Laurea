@@ -79,8 +79,8 @@ ESTAT_TCP_SUMMARY_COLUMNS = {
     "PROTOCOL":             41,
 
     # Info about flow timing
-    "TIME_ABS_START": 28, # When the flow has started
-    "TIME_ABS_END":   29, # When the flow has finished
+    "TIME_ABS_BEGIN": 28, # When the flow has started
+    "TIME_ABS_ENDUP":   29, # When the flow has finished
 
     # Server identity info
     "SERVER_CNAME_CLIENT_HELLO":     115, # The server canonical name is extracted from Client Hello during TLS hadshake
@@ -133,33 +133,33 @@ ESTAT_TCP_LOG_PERIODIC_SUMMARY_COLUMNS = {
     "SERVER_L4_PORT":       3,
 
     # Info about the bin (a snapshot of the flow)
-    "TIME_ABS_START": 4, # When the bin has started
-    "TIME_REL_START": 5, # When the bin has started from the first bin
-    "TIME_REL_END":   6, # When the bin has ended up from the first bin
+    "TIME_ABS_BEGIN": 4, # When the bin has started
+    "TIME_REL_BEGIN": 5, # When the bin has started from the first bin
+    "TIME_REL_ENDUP": 6, # When the bin has ended up from the first bin
     "TIME_BIN_DELTA": 7, # The bin duration
 
     # Volume statistics about the connection from client perspective
-    "C_PKTS_ALL":   8,      # How many packets the client has generated in total
-    "C_RSTS_PKTS":  9,      # How many packets with RST flag the client has emitted
-    "C_ACKS_PKTS": 10,      # How many packets with ACK flag the client has emitted
-    "C_PURE_ACKS_PKTS": 11, # How many packets with ACK and no data the client has emitted
-    "C_BYTES": 12,          # How many payload bytes the client has generated in total
-    "C_PKTS_WITH_DATA": 13, # How many packets with data the client has emitted
-    "C_BYTES_ALL": 14,      # How many payload bytes the client has generated purely
-    "C_PKTS_RETX": 15,      # How many packets the client has retrasmitted
-    "C_BYTS_RETX": 16,      # How many bytes the client has retrasmitted
+    "CLIENT_PKTS_ALL":   8,      # How many packets the client has generated in total
+    "CLIENT_RSTS_PKTS":  9,      # How many packets with RST flag the client has emitted
+    "CLIENT_ACKS_PKTS": 10,      # How many packets with ACK flag the client has emitted
+    "CLIENT_PURE_ACKS_PKTS": 11, # How many packets with ACK and no data the client has emitted
+    "CLIENT_BYTES": 12,          # How many payload bytes the client has generated in total
+    "CLIENT_PKTS_WITH_DATA": 13, # How many packets with data the client has emitted
+    "CLIENT_BYTES_ALL": 14,      # How many payload bytes the client has generated purely
+    "CLIENT_PKTS_RETX": 15,      # How many packets the client has retrasmitted
+    "CLIENT_BYTS_RETX": 16,      # How many bytes the client has retrasmitted
 
     # Volume statistics about the connection from server perspective
-    "S_PKTS_ALL":   20,     # How many packets the server has generated in total
-    "S_RSTS_PKTS":  21,     # How many packets with RST flag the server has emitted
-    "S_ACKS_PKTS":  22,     # How many packets with ACK flag the server has emitted
-    "S_PURE_ACKS_PKTS": 23, # How many packets with ACK and no data the server has emitted
-    "S_BYTES": 24,          # How many payload bytes the server has generated in total
-    "S_PKTS_WITH_DATA": 25, # How many packets with data the server has emitted
-    "S_BYTES_ALL": 26,      # How many payload bytes the server has generated purely
-    "S_PKTS_RETX": 27,      # How many packets the server has retrasmitted
-    "S_BYTS_RETX": 28,      # How many bytes the server has retrasmitted
-
+    "SERVER_PKTS_ALL":   20,     # How many packets the server has generated in total
+    "SERVER_RSTS_PKTS":  21,     # How many packets with RST flag the server has emitted
+    "SERVER_ACKS_PKTS":  22,     # How many packets with ACK flag the server has emitted
+    "SERVER_PURE_ACKS_PKTS": 23, # How many packets with ACK and no data the server has emitted
+    "SERVER_BYTES": 24,          # How many payload bytes the server has generated in total
+    "SERVER_PKTS_WITH_DATA": 25, # How many packets with data the server has emitted
+    "SERVER_BYTES_ALL": 26,      # How many payload bytes the server has generated purely
+    "SERVER_PKTS_RETX": 27,      # How many packets the server has retrasmitted
+    "SERVER_BYTS_RETX": 28,      # How many bytes the server has retrasmitted
+    
 }
 
 

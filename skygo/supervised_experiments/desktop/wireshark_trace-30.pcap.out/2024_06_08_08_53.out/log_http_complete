@@ -1,0 +1,142 @@
+#C#c_ip:1	c_port:2	s_ip:3	s_port:4	time_abs:5	method:6	hostname:7	fqdn:8	path:9	referer:10	user_agent:11	cookie:12	dnt:13
+#S#c_ip:1	c_port:2	s_ip:3	s_port:4	time_abs:5	HTTP:6	response:7	content_len:8	content_type:9	server:10	range:11	location:12	set_cookie:13
+192.168.75.55	50078	185.26.140.126	443	1717833220.300821	POST	-	pskyq-drm-sgw.skycdn.it	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50078	185.26.140.126	443	1717833220.505131	HTTP	200	-	-	-	-	-	-
+192.168.75.55	50078	185.26.140.126	443	1717833220.505131	RES2	-	239	-	-	-	-	-
+192.168.75.55	50078	185.26.140.126	443	1717833220.511217	POST	-	pskyq-drm-sgw.skycdn.it	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50078	185.26.140.126	443	1717833220.511217	REQ2	pskyq-drm-sgw.skycdn.it:443	pskyq-drm-sgw.skycdn.it	-	-	I_con	-	-
+192.168.75.55	50078	185.26.140.126	443	1717833220.606922	HTTP	200	312	application/octet-stream	-	-	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833247.107299	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833247.345528	HTTP	200	418	text/xml	-	-	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833247.382678	HTTP	200	418	text/xml	-	-	-	-
+192.168.75.55	50120	176.255.176.108	443	1717833248.120402	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50120	176.255.176.108	443	1717833248.120402	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	50120	176.255.176.108	443	1717833251.356951	HTTP	200	623	application/octet-stream	-	-	-	-
+192.168.75.55	50120	176.255.176.108	443	1717833251.358360	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50120	176.255.176.108	443	1717833251.492247	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	50120	176.255.176.108	443	1717833251.718396	HTTP	200	3099	application/octet-stream	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833261.821321	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833262.692836	HTTP	200	7225	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833262.695664	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833262.903798	HTTP	200	7229	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833262.905030	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833262.929970	HTTP	200	7225	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833262.998196	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833263.020908	HTTP	200	7233	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833263.130086	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833263.285829	HTTP	200	7221	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833263.288035	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833263.501012	HTTP	200	7229	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833263.524707	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833263.869162	HTTP	200	7223	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833263.870742	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833264.325154	HTTP	200	7231	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833264.351330	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833265.085901	HTTP	200	7227	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833265.099617	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50134	173.222.107.24	80	1717833265.186564	GET	ctldl.windowsupdate.com	ctldl.windowsupdate.com	-	-	Microsoft-CryptoAPI/10.0	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833265.644465	HTTP	200	7231	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833265.648395	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50134	173.222.107.24	80	1717833265.664412	HTTP	304	-	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.133722	HTTP	200	7231	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.140889	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.368667	HTTP	200	7227	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.382389	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.461780	HTTP	200	7225	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.476988	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.515223	HTTP	200	7231	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.545115	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.577331	HTTP	200	7229	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.599509	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.629545	HTTP	200	7225	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.653613	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.676504	HTTP	200	7225	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.700748	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.722792	HTTP	200	7231	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.743967	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.765312	HTTP	200	7223	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.787233	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.807602	HTTP	200	7223	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.834717	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.883120	HTTP	200	7229	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.893921	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.924161	HTTP	200	7231	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.932186	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.953221	HTTP	200	7223	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.969349	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833266.996460	HTTP	200	7221	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.014769	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.040399	HTTP	200	7219	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.049705	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.077226	HTTP	200	7227	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.085033	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.116105	HTTP	200	7227	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.118087	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.141678	HTTP	200	7227	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.157948	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.188031	HTTP	200	7227	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.191871	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.211284	HTTP	200	7225	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.219333	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.241796	HTTP	200	7225	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.250346	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.269984	HTTP	200	7225	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.277083	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.295971	HTTP	200	7389	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.312427	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.341527	HTTP	200	7381	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.356653	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.435704	HTTP	200	7299	application/vnd.ms-cab-compressed	ECAcc (mil/6C30)	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.437989	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.460949	HTTP	200	7293	application/vnd.ms-cab-compressed	ECAcc (mil/6C2C)	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.558203	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.594339	HTTP	200	10845	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.679230	GET	download.windowsupdate.com	download.windowsupdate.com	-	-	Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.33	-	-
+192.168.75.55	50133	173.222.107.31	80	1717833267.697651	HTTP	200	10883	application/vnd.ms-cab-compressed	ECAcc (mil/6C9F)	-	-	-
+192.168.75.55	50139	173.222.107.24	80	1717833270.174201	GET	au.download.windowsupdate.com	au.download.windowsupdate.com	-	-	Microsoft-Delivery-Optimization/10.0	-	-
+192.168.75.55	50138	173.222.107.31	80	1717833270.174330	GET	au.download.windowsupdate.com	au.download.windowsupdate.com	-	-	Microsoft-Delivery-Optimization/10.0	-	-
+192.168.75.55	50139	173.222.107.24	80	1717833270.270950	HTTP	206	2	application/octet-stream	-	bytes 0-1/484856	-	-
+192.168.75.55	50138	173.222.107.31	80	1717833270.270950	HTTP	206	2	application/octet-stream	-	bytes 0-1/484856	-	-
+192.168.75.55	50138	173.222.107.31	80	1717833270.278348	GET	au.download.windowsupdate.com	au.download.windowsupdate.com	-	-	Microsoft-Delivery-Optimization/10.0	-	-
+192.168.75.55	50138	173.222.107.31	80	1717833270.322647	HTTP	206	484856	application/octet-stream	-	bytes 0-484855/484856	-	-
+192.168.75.55	50144	173.222.107.15	80	1717833304.067869	GET	ctldl.windowsupdate.com	ctldl.windowsupdate.com	-	-	Microsoft-CryptoAPI/10.0	-	-
+192.168.75.55	50144	173.222.107.15	80	1717833304.478857	GET	ctldl.windowsupdate.com	ctldl.windowsupdate.com	-	-	Microsoft-CryptoAPI/10.0	-	-
+192.168.75.55	50144	173.222.107.15	80	1717833304.522074	HTTP	304	-	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50144	173.222.107.15	80	1717833304.641339	HTTP	304	-	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833320.622082	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833320.754438	HTTP	200	416	text/xml	-	-	-	-
+192.168.75.55	50158	176.255.176.108	443	1717833320.982303	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50158	176.255.176.108	443	1717833320.982303	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	50158	176.255.176.108	443	1717833321.085249	HTTP	200	3102	application/octet-stream	-	-	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833394.825785	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833395.085173	HTTP	200	416	text/xml	-	-	-	-
+192.168.75.55	50182	176.255.176.108	443	1717833395.271413	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50182	176.255.176.108	443	1717833395.271413	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	50182	176.255.176.108	443	1717833395.506602	HTTP	200	3099	application/octet-stream	-	-	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833468.862831	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833468.973620	HTTP	200	416	text/xml	-	-	-	-
+192.168.75.55	50205	176.255.176.108	443	1717833469.313934	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50205	176.255.176.108	443	1717833469.313934	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	50205	176.255.176.108	443	1717833469.441917	HTTP	200	3102	application/octet-stream	-	-	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833543.275924	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833543.483386	HTTP	200	417	text/xml	-	-	-	-
+192.168.75.55	50235	176.255.176.108	443	1717833543.736775	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50235	176.255.176.108	443	1717833543.736775	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	50235	176.255.176.108	443	1717833543.844747	HTTP	200	3102	application/octet-stream	-	-	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833617.343025	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833617.613471	HTTP	200	1192	text/xml	-	-	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833617.708031	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833617.830557	HTTP	200	0	text/html	-	-	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833618.745632	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833618.845657	HTTP	200	0	text/html	-	-	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833626.285455	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833626.419309	HTTP	200	0	text/html	-	-	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833631.067946	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833631.137307	HTTP	200	0	text/html	-	-	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833636.117581	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833636.354448	HTTP	200	0	text/html	-	-	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833641.168953	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	50103	3.69.181.184	80	1717833641.371202	HTTP	200	0	text/html	-	-	-	-
+192.168.75.55	50265	176.255.176.108	443	1717833641.371749	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	50265	176.255.176.108	443	1717833641.371749	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	50265	176.255.176.108	443	1717833641.502252	HTTP	200	3102	application/octet-stream	-	-	-	-

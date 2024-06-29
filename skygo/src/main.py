@@ -304,7 +304,7 @@ def run_tests_3b(delta, test: Experiment):
 
     sample = Sample(
             frame=test.estat_tcp_complete_frame, 
-                streambot_trace_file=test.streambot_trace_file, 
+                streambot_trace_file=test.smbot_log_activity_file, 
                     platform_profile=platform_profile, delta=delta, limit=limit, minimum=0.86)
 
     # Generate windows (STEP 1)
@@ -325,7 +325,7 @@ def run_tests_3a(delta, test: Experiment):
 
     sample = Sample(
             frame=test.estat_tcp_complete_frame, 
-                streambot_trace_file=test.streambot_trace_file, 
+                streambot_trace_file=test.smbot_log_activity_file, 
                     platform_profile=platform_profile, delta=delta, limit=limit, minimum=0.86)
 
     # Generate windows (STEP 1)

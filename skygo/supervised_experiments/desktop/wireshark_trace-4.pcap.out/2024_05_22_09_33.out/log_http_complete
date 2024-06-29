@@ -1,0 +1,50 @@
+#C#c_ip:1	c_port:2	s_ip:3	s_port:4	time_abs:5	method:6	hostname:7	fqdn:8	path:9	referer:10	user_agent:11	cookie:12	dnt:13
+#S#c_ip:1	c_port:2	s_ip:3	s_port:4	time_abs:5	HTTP:6	response:7	content_len:8	content_type:9	server:10	range:11	location:12	set_cookie:13
+192.168.166.55	52230	185.26.140.126	443	1716366804.096752	POST	-	pskyq-drm-sgw.skycdn.it	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	52230	185.26.140.126	443	1716366804.160522	HTTP	200	-	-	-	-	-	-
+192.168.166.55	52230	185.26.140.126	443	1716366804.160522	RES2	-	239	-	-	-	-	-
+192.168.166.55	52230	185.26.140.126	443	1716366804.164263	POST	-	pskyq-drm-sgw.skycdn.it	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	52230	185.26.140.126	443	1716366804.164263	REQ2	pskyq-drm-sgw.skycdn.it:443	pskyq-drm-sgw.skycdn.it	-	-	I_con	-	-
+192.168.166.55	52230	185.26.140.126	443	1716366804.196635	HTTP	200	312	application/octet-stream	-	-	-	-
+192.168.166.55	52260	18.134.84.26	80	1716366826.103904	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52260	18.134.84.26	80	1716366826.249484	HTTP	200	418	text/xml	-	-	-	-
+192.168.166.55	52275	176.255.176.108	443	1716366826.539466	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	52275	176.255.176.108	443	1716366826.539466	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.166.55	52275	176.255.176.108	443	1716366826.694538	HTTP	200	623	application/octet-stream	-	-	-	-
+192.168.166.55	52275	176.255.176.108	443	1716366826.696746	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	52275	176.255.176.108	443	1716366826.696746	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.166.55	52275	176.255.176.108	443	1716366826.790269	HTTP	200	2813	application/octet-stream	-	-	-	-
+192.168.166.55	52285	23.214.205.2	80	1716366851.110466	GET	x1.c.lencr.org	x1.c.lencr.org	-	-	Microsoft-CryptoAPI/10.0	-	-
+192.168.166.55	52285	23.214.205.2	80	1716366851.132535	HTTP	304	-	-	-	-	-	-
+192.168.166.55	52286	173.222.107.30	80	1716366851.183437	GET	ctldl.windowsupdate.com	ctldl.windowsupdate.com	-	-	Microsoft-CryptoAPI/10.0	-	-
+192.168.166.55	52286	173.222.107.30	80	1716366851.218303	HTTP	304	-	application/vnd.ms-cab-compressed	-	-	-	-
+192.168.166.55	52260	18.134.84.26	80	1716366894.594891	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52260	18.134.84.26	80	1716366894.662767	HTTP	200	417	text/xml	-	-	-	-
+192.168.166.55	52301	176.255.176.108	443	1716366894.800037	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	52301	176.255.176.108	443	1716366894.800037	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.166.55	52301	176.255.176.108	443	1716366894.923219	HTTP	200	2813	application/octet-stream	-	-	-	-
+192.168.166.55	52260	18.134.84.26	80	1716366967.625652	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52260	18.134.84.26	80	1716366967.700066	HTTP	200	417	text/xml	-	-	-	-
+192.168.166.55	52325	176.255.176.108	443	1716366967.830241	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	52325	176.255.176.108	443	1716366967.830241	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.166.55	52325	176.255.176.108	443	1716366967.903875	HTTP	200	2813	application/octet-stream	-	-	-	-
+192.168.166.55	52260	18.134.84.26	80	1716367040.637390	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52260	18.134.84.26	80	1716367040.719477	HTTP	200	416	text/xml	-	-	-	-
+192.168.166.55	52350	176.255.176.108	443	1716367040.863109	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	52350	176.255.176.108	443	1716367040.863109	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.166.55	52350	176.255.176.108	443	1716367040.936976	HTTP	200	2816	application/octet-stream	-	-	-	-
+192.168.166.55	52260	18.134.84.26	80	1716367113.704543	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52260	18.134.84.26	80	1716367113.785879	HTTP	200	415	text/xml	-	-	-	-
+192.168.166.55	52374	176.255.176.108	443	1716367113.926399	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	52374	176.255.176.108	443	1716367113.926399	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.166.55	52374	176.255.176.108	443	1716367114.040324	HTTP	200	2816	application/octet-stream	-	-	-	-
+192.168.166.55	52260	18.134.84.26	80	1716367186.652631	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52260	18.134.84.26	80	1716367186.755170	HTTP	200	418	text/xml	-	-	-	-
+192.168.166.55	52398	176.255.176.108	443	1716367186.945761	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	52398	176.255.176.108	443	1716367186.945761	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.166.55	52398	176.255.176.108	443	1716367187.050359	HTTP	200	2816	application/octet-stream	-	-	-	-
+192.168.166.55	52260	18.134.84.26	80	1716367259.665749	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	http://qgo-desktop.sky.com	Mozilla/5.0 (SKYQPC:23.5:IT)	-	-
+192.168.166.55	52260	18.134.84.26	80	1716367259.739085	HTTP	200	417	text/xml	-	-	-	-
+192.168.166.55	52425	176.255.176.108	443	1716367259.873592	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.2-#0x000204d3-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.166.55	52425	176.255.176.108	443	1716367259.873592	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.166.55	52425	176.255.176.108	443	1716367259.980781	HTTP	200	2813	application/octet-stream	-	-	-	-

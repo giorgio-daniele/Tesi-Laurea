@@ -1,0 +1,44 @@
+#C#c_ip:1	c_port:2	s_ip:3	s_port:4	time_abs:5	method:6	hostname:7	fqdn:8	path:9	referer:10	user_agent:11	cookie:12	dnt:13
+#S#c_ip:1	c_port:2	s_ip:3	s_port:4	time_abs:5	HTTP:6	response:7	content_len:8	content_type:9	server:10	range:11	location:12	set_cookie:13
+192.168.75.55	52186	185.26.140.126	443	1717828908.289912	POST	-	pskyq-drm-sgw.skycdn.it	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	52186	185.26.140.126	443	1717828908.598318	HTTP	200	-	-	-	-	-	-
+192.168.75.55	52186	185.26.140.126	443	1717828908.599287	RES2	-	239	-	-	-	-	-
+192.168.75.55	52186	185.26.140.126	443	1717828908.606386	POST	-	pskyq-drm-sgw.skycdn.it	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	52186	185.26.140.126	443	1717828908.606386	REQ2	pskyq-drm-sgw.skycdn.it:443	pskyq-drm-sgw.skycdn.it	-	-	I_con	-	-
+192.168.75.55	52186	185.26.140.126	443	1717828908.700153	HTTP	200	312	application/octet-stream	-	-	-	-
+192.168.75.55	52222	18.134.84.20	80	1717828937.873193	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	52222	18.134.84.20	80	1717828938.002200	HTTP	200	417	text/xml	-	-	-	-
+192.168.75.55	52239	176.255.176.108	443	1717828938.674575	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	52239	176.255.176.108	443	1717828938.674575	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	52239	176.255.176.108	443	1717828938.834478	HTTP	200	623	application/octet-stream	-	-	-	-
+192.168.75.55	52239	176.255.176.108	443	1717828938.836645	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	52239	176.255.176.108	443	1717828938.836645	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	52239	176.255.176.108	443	1717828938.919650	HTTP	200	3099	application/octet-stream	-	-	-	-
+192.168.75.55	52222	18.134.84.20	80	1717829011.262043	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	52222	18.134.84.20	80	1717829011.409299	HTTP	200	417	text/xml	-	-	-	-
+192.168.75.55	52268	176.255.176.108	443	1717829011.607439	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	52268	176.255.176.108	443	1717829011.607439	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	52268	176.255.176.108	443	1717829011.697560	HTTP	200	3102	application/octet-stream	-	-	-	-
+192.168.75.55	52222	18.134.84.20	80	1717829085.500218	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	52222	18.134.84.20	80	1717829085.646687	HTTP	200	417	text/xml	-	-	-	-
+192.168.75.55	52293	176.255.176.108	443	1717829085.885934	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	52293	176.255.176.108	443	1717829085.885934	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	52293	176.255.176.108	443	1717829086.056243	HTTP	200	3099	application/octet-stream	-	-	-	-
+192.168.75.55	52222	18.134.84.20	80	1717829159.744690	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	52222	18.134.84.20	80	1717829159.888346	HTTP	200	417	text/xml	-	-	-	-
+192.168.75.55	52317	176.255.176.108	443	1717829160.086640	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	52317	176.255.176.108	443	1717829160.086640	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	52317	176.255.176.108	443	1717829160.300343	HTTP	200	3102	application/octet-stream	-	-	-	-
+192.168.75.55	52222	18.134.84.20	80	1717829233.981575	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	52222	18.134.84.20	80	1717829234.074844	HTTP	200	416	text/xml	-	-	-	-
+192.168.75.55	52340	176.255.176.108	443	1717829234.332662	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	52340	176.255.176.108	443	1717829234.332662	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	52340	176.255.176.108	443	1717829234.746711	HTTP	200	3102	application/octet-stream	-	-	-	-
+192.168.75.55	52340	176.255.176.108	443	1717829234.827938	HTTP	200	3102	application/octet-stream	-	-	-	-
+192.168.75.55	52222	18.134.84.20	80	1717829308.184482	GET	7dff3.v.fwmrm.net	7dff3.v.fwmrm.net	-	-	Mozilla/5.0 (SKYQPC:24.1:IT)	-	-
+192.168.75.55	52222	18.134.84.20	80	1717829308.274481	HTTP	200	417	text/xml	-	-	-	-
+192.168.75.55	52365	176.255.176.108	443	1717829308.447739	POST	-	ott-sgwl.skyanywhere.com	-	-	V01-13.4-#0x0001febb-DEV0x00000001-1.10.0.255-SKY_IT-SKY_QGO	-	-
+192.168.75.55	52365	176.255.176.108	443	1717829308.447739	REQ2	ott-sgwl.skyanywhere.com:443	ott-sgwl.skyanywhere.com	-	-	I_con	-	-
+192.168.75.55	52365	176.255.176.108	443	1717829308.568583	HTTP	200	3102	application/octet-stream	-	-	-	-
+192.168.75.55	52377	104.120.125.70	80	1717829380.355316	GET	tile-service.weather.microsoft.com	tile-service.weather.microsoft.com	-	-	Microsoft-WNS/10.0	-	-
+192.168.75.55	52377	104.120.125.70	80	1717829380.464237	HTTP	200	4177	text/xml; charset=utf-8	Microsoft-IIS/10.0	-	-	-
